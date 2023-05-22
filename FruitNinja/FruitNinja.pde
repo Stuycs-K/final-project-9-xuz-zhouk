@@ -5,8 +5,9 @@ void setup() {
 }
 
 void startMenu() {
-  color c1 = color(0,0,0);
-  Button start = new Button(50,50,c1,"START");
+  color b1 = color(0,0,0);
+  color b2 = color(255,255,255);
+  Button start = new Button(50,50,b1,b2,"START");
   start.display(400,400);
   
 }
