@@ -1,18 +1,22 @@
 public class Button {
   int width,height;
-  color c;
-  String text;
+  color buttonColor,messageColor;
+  String message;
   
-  public Button (int width, int height, int color, String txt) {
+  public Button (int width, int height, color buttonColor, color messageColor, String txt) {
     this.width = width;
     this.height = height;
-    this.c = c;
-    this.text = text;
+    this.buttonColor = buttonColor;
+    this.messageColor = messageColor;
+    message = txt;
   }
   
   void display(int x, int y) {
-    fill(c);
+    rectMode(CENTER);
+    fill(buttonColor);
     rect(x,y,width,height);
+    fill(messageColor);
+    text(message,x,y,width,height);
     noFill();
   }
 
