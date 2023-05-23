@@ -16,8 +16,11 @@ public class Button {
     fill(buttonColor);
     rect(x,y,bwidth,bheight);
     fill(messageColor);
-    text(message,x,y,bwidth,bheight);
+    text(message,x+bwidth/4-2,y+bheight/4,bwidth,bheight);
     noFill();
   }
-
+  
+  void mousePressed() {
+    
+  }
 }
