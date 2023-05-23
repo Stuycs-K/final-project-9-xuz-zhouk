@@ -19,7 +19,8 @@ public class Button {
     fill(buttonColor);
     rect(xcoord,ycoord,bwidth,bheight);
     fill(messageColor);
-    text(message,xcoord,ycoord,bwidth,bheight);
+<<<<<<< HEAD
+    text(message,x+bwidth/4-2,y+bheight/4,bwidth,bheight);
     noFill();
   }
   
@@ -33,5 +34,11 @@ public class Button {
     boolean b3 = mouseY >= ycoord && mouseY <= ycoord+bheight;
     return b1 && b2 && b3;
   }
+  void mousePressed() {
+    
+  }
 
+=======
+
+>>>>>>> b81e200ff325422e45fc2d92fb59e48c91dbe637
 }
