@@ -1,9 +1,12 @@
 public class Button {
   int bwidth,bheight;
+  int xcoord,ycoord;
   color buttonColor,messageColor;
   String message;
   
-  public Button (int bwidth, int bheight, color buttonColor, color messageColor, String txt) {
+  public Button (int xcoord, int ycoord, int bwidth, int bheight, color buttonColor, color messageColor, String txt) {
+    this.xcoord = xcoord;
+    this.ycoord = ycoord;
     this.bwidth = bwidth;
     this.bheight = bheight;
     this.buttonColor = buttonColor;
@@ -11,13 +14,24 @@ public class Button {
     message = txt;
   }
   
-  void display(int x, int y) {
+  void display() {
     rectMode(CENTER);
     fill(buttonColor);
-    rect(x,y,bwidth,bheight);
+    rect(xcoord,ycoord,bwidth,bheight);
     fill(messageColor);
-    text(message,x,y,bwidth,bheight);
+    text(message,xcoord,ycoord,bwidth,bheight);
     noFill();
+  }
+  
+  void draw() {
+    
+  }
+  
+  boolean isClicked() {
+    boolean b1 = mousePressed;
+    boolean b2 = mouseX >= xcoord && mouseX <= xcoord+bwidth;
+    boolean b3 = mouseY >= ycoord && mouseY <= ycoord+bheight;
+    return b1 && b2 && b3;
   }
 
 }
