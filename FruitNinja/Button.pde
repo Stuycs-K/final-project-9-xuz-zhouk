@@ -3,8 +3,9 @@ public class Button {
   int xcoord,ycoord;
   color buttonColor,messageColor;
   String message;
+  int textSize;
   
-  public Button (int xcoord, int ycoord, int bwidth, int bheight, color buttonColor, color messageColor, String txt) {
+  public Button (int xcoord, int ycoord, int bwidth, int bheight, color buttonColor, color messageColor, String txt, int textSize) {
     this.xcoord = xcoord;
     this.ycoord = ycoord;
     this.bwidth = bwidth;
@@ -12,6 +13,7 @@ public class Button {
     this.buttonColor = buttonColor;
     this.messageColor = messageColor;
     message = txt;
+    this.textSize = textSize;
   }
   
   void display() {
@@ -19,26 +21,19 @@ public class Button {
     fill(buttonColor);
     rect(xcoord,ycoord,bwidth,bheight);
     fill(messageColor);
-<<<<<<< HEAD
-    text(message,x+bwidth/4-2,y+bheight/4,bwidth,bheight);
+    textSize(textSize);
+    text(message,xcoord,ycoord,bwidth,bheight);
     noFill();
   }
   
-  void draw() {
-    
+  String getText() {
+    return message;
   }
   
-  boolean isClicked() {
-    boolean b1 = mousePressed;
-    boolean b2 = mouseX >= xcoord && mouseX <= xcoord+bwidth;
-    boolean b3 = mouseY >= ycoord && mouseY <= ycoord+bheight;
-    return b1 && b2 && b3;
-  }
-  void mousePressed() {
-    
+  boolean update(int x, int y) {
+    boolean b2 = x >= xcoord - bwidth/2 && x <= xcoord + bwidth/2;
+    boolean b3 = y >= ycoord - bheight/2 && y <= ycoord + bheight/2;
+    return b2 && b3;
   }
 
-=======
-
->>>>>>> b81e200ff325422e45fc2d92fb59e48c91dbe637
 }
