@@ -1,21 +1,21 @@
 # Work Log
 
-## GROUP MEMBER 1
+## GROUP MEMBER 1: Zhi Ming Xu
 
-### date x
-
-info
+### date: 5-22-23
+worked alongside Kevin to provide him with insights
+implemented gravity and movement for fruits
 
 ### date y
 
 info
 
 
-## GROUP MEMBER 2
+## GROUP MEMBER 2: Kevin Zhou
 
-### date x
-
-info
+### date: 5-22-23
+implemented most of Button and FruitNinja class
+initialized start menu with clickable buttons
 
 ### date y
 
