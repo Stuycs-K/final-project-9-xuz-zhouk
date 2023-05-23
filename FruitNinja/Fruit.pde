@@ -2,17 +2,18 @@ public class Fruit {
   PVector position, velocity, acceleration;
   float radius;
   float mass;
-  double rotationSpeed;
-  int rotationDirection;
+  int rotationSpeed, rotationDirection;
   color c;
    
-  public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, double rotationSpeed, int rotationDirection, float radius, float mass) {
+  public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, int rotationSpeed, int rotationDirection, float radius, float mass) {
     position = new PVector(xCoor, yCoor);
     velocity = new PVector(xSpeed, ySpeed);
     acceleration = new PVector(0, -9.8);
     this.mass = mass;
     this.radius = radius;
     c = color(random(255), random(255), random(255));
+    this.rotationSpeed = rotationSpeed;
+    this.rotationDirection = rotationDirection;
   }
 
   void move() {
@@ -23,6 +24,9 @@ public class Fruit {
 
     //bounce
     bounce();
+    
+    //rotate
+    
   }
 
   void display() {
@@ -30,7 +34,7 @@ public class Fruit {
   }
 
   public void bounce() {
-    //bounce if hit left or right walls
+    //bounce if the fruit hits left or right walls
     if (position.x < radius)
       velocity.x = abs(velocity.x);
     if (position.x > width-radius)
