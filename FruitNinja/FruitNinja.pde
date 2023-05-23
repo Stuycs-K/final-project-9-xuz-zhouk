@@ -1,7 +1,12 @@
 Button startButton,pauseButton;
 PImage backgroundImg;
+ArrayList<Fruit> fruits;
 void draw() {
-  
+  background(backgroundImg);
+  for (Fruit c: fruits) {
+    c.move();
+    c.display();
+  }
 }
 
 void setup() { 
@@ -9,6 +14,7 @@ void setup() {
   backgroundImg = loadImage("menuBackground.png");
   background(backgroundImg);
   startMenu();
+  fruits = new ArrayList<Fruit>();
 }
 
 void startMenu() {
@@ -43,5 +49,6 @@ void pauseMenu() {
        pauseMenu();
      }
    }
+   fruits.add(new Fruit(mouseX, mouseY, 5, 20, 3, -1, 30, 500));
  }
   
