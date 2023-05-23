@@ -1,0 +1,32 @@
+public class Button {
+  int bwidth,bheight,bX,bY;
+  color buttonColor,messageColor;
+  String message;
+  
+  public Button (int bwidth, int bheight, int bX, int bY, color buttonColor, color messageColor, String txt) {
+    this.bwidth = bwidth;
+    this.bheight = bheight;
+    this.buttonColor = buttonColor;
+    this.messageColor = messageColor;
+    this.bX = bX;
+    this.bY = bY;
+    message = txt;
+  }
+  
+  void display() {
+    fill(buttonColor);
+    rect(bX,bY,bwidth,bheight);
+    fill(messageColor);
+    text(message,bX+bwidth/4-2,bY+bheight/4,bwidth,bheight);
+    noFill();
+  }
+  
+  void mousePressed() {
+    if (mouseX >= bX && mouseX <= bX+bwidth && mouseY >= bY && mouseY <= bY+bheight) {
+      if (message.equals("START")) {
+        playing = true;
+        System.out.println("worked");
+      }
+    }
+  }
+}
