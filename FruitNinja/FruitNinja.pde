@@ -1,23 +1,47 @@
-Button startButton;
+Button startButton,pauseButton;
+PImage backgroundImg;
 void draw() {
-  if (startButton.isClicked()) {
-    startButtonPressed();
-  } 
+  
 }
 
-void setup() {
-  size(800,800);
-  background(150,75,0);
+void setup() { 
+  size(960,720);
+  backgroundImg = loadImage("menuBackground.png");
+  background(backgroundImg);
   startMenu();
 }
 
 void startMenu() {
   color b1 = color(0,0,0);
   color b2 = color(255,255,255);
-  startButton = new Button(400,400,50,50,b1,b2,"START");
+  startButton = new Button(width/2,height/2,200,100,b1,b2,"START",73);
   startButton.display();
 }
 
-void startButtonPressed() {
-  background(0,0,0);
+void gameMenu() {
+  background(backgroundImg);
+  color b1 = color(0,0,0);
+  color b2 = color(255,255,255);
+  pauseButton = new Button(900,45,100,50,b1,b2,"PAUSE",35);
+  pauseButton.display();
 }
+
+void pauseMenu() {
+  
+}
+
+ void mousePressed() {
+   if (startButton.update(mouseX,mouseY)) {
+     if (startButton.getText().equals("START")) {
+       System.out.println("start button pressed!");
+       gameMenu();
+     }
+   }
+   if (pauseButton.update(mouseX,mouseY)) {
+     if (pauseButton.getText().equals("PAUSE")) {
+       System.out.println("pause button pressed!");
+       pauseMenu();
+     }
+   }
+ }
+  
