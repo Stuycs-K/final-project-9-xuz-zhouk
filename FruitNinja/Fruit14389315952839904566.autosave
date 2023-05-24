@@ -1,0 +1,63 @@
+public class Fruit {
+  PVector position, velocity, acceleration;
+  double rotationSpeed, radius, mass;
+  int rotationDirection;
+  color shade;
+  
+  public Fruit(float xCoor,float yCoor,float xSpeed,float ySpeed,double rotationSpeed,int rotationDirection,double mass, double radius) {
+    position = new PVector(xCoor, yCoor);
+    velocity = new PVector(xSpeed, ySpeed);
+    acceleration = new PVector(0.0, 0.0);
+    this.rotationSpeed = rotationSpeed;
+    this.radius = radius;
+    this.rotationDirection = rotationDirection;
+    this.mass = mass;
+  }
+  
+  void move() {
+    velocity.add(acceleration);
+    position.add(velocity);
+    acceleration.set(0.0, 0.0);
+    bounce();
+  }
+  
+  PVector attractTo(Fruit other) {
+    //M1 and M2 are the masses of this Fruit, and the other Fruit.
+    //dist is the distance between the dist.
+
+    //set the magnitude of the force g using the defined value
+    double mag = 9.8;
+
+    //calculate the direction of the force
+    PVector force = PVector.sub(other.position, this.position);
+
+    //normalize the force
+    force.normalize();
+    //now you have a unit vector, and a magnitude.
+    //Make your force vector have the correct magnitude before returning it.
+    force.setMag((float) mag);
+    return force;
+  }
+  
+  /*Apply a force to the current orb by changing the acceleration.*/
+  void applyForce(PVector f) {
+    //a = f / m
+
+    //CHANGE THIS
+    //add  force/mass to the acceleration to apply the force.
+    f.setMag((float)(f.mag()/mass));
+    acceleration.add(f);
+  }
+  
+  void bounce() {
+    // Fruit bounces if it hits left or right walls
+    if (position.x < radius)
+      velocity.x = abs(velocity.x);
+    if (position.x > width-radius)
+      velocity.x=-1*abs(velocity.x);
+  }
+  
+  void display() {
+    
+  }
+}
