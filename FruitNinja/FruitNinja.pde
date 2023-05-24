@@ -3,6 +3,7 @@ PImage backgroundImg;
 boolean paused;
 Fruit earth;
 ArrayList<Fruit> fruitBox;
+ArrayList<String> fruitTypes;
 void draw() {
   if (!paused) {
     gameMenu();
@@ -23,11 +24,20 @@ void setup() {
   size(960, 720);
   backgroundImg = loadImage("menuBackground.png");
   background(backgroundImg);
-  earth = new Fruit(width/2, height*500, 0, 0, 0, 0, 100000000, 500000000);
 
-  //fruitBox intialize
+  //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
-
+  
+  //fruitTypes initialize;
+  fruitTypes = new ArrayList<String>();
+  fruitTypes.add("watermelon.png");
+  fruitTypes.add("banana.png");
+  fruitTypes.add("pear.png");
+  fruitTypes.add("pomegranate.png");
+  fruitTypes.add("orange.png");
+  fruitTypes.add("pineapple.png");
+  fruitTypes.add("coconut.png");
+  
   //BUTTONS
   PImage buttonImg = loadImage("pauseButton.png");
   pauseButton = new Button(900, 45, buttonImg, color(0, 0, 0), "PAUSE", 1);
@@ -85,7 +95,10 @@ void keyPressed() {
     if (randomDirection == 0) {
       randomDirection = -1;
     }
-    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100, 10);
+    //Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
+    String whichFruit = fruitTypes.get((int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0));
+    PImage fruitSprite = loadImage(whichFruit);
+    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
     fruitBox.add(testFruit.copyOf());
   }
 }
