@@ -14,6 +14,7 @@ void draw() {
       }
       else{
         fruitBox.get(i).display();
+        fruitBox.get(i).bounce();
         fruitBox.get(i).applyForce(fruitBox.get(i).attractTo(earth));
       }      
     }
@@ -24,7 +25,7 @@ void setup() {
   size(960, 720);
   backgroundImg = loadImage("menuBackground.png");
   background(backgroundImg);
-  earth = new Fruit(width/2, height*500, 0, 0, 0, 0, 100000000, 500000000);
+  earth = new Fruit(width/2, height*100, 0, 0, 0, 0, 1000000, 500000000);
 
   //fruitBox intialize
   fruitBox = new ArrayList<Fruit>();
@@ -83,7 +84,7 @@ void keyPressed() {
     randomWidth = (int)(Math.random() * (width-0+1) + 0);
     randomMagnitude = (int)(Math.random() * (10-5+1) + 1);
     randomDirection = (int)(Math.random() * (1-0+1) + 1);
-    Fruit testFruit = new Fruit(width/2, height/2, 5, -20, 0.03, 1, 100, 10);
+    Fruit testFruit = new Fruit(0,0, 5, -5, 0.03, 1, 100, 10);
     fruitBox.add(testFruit.copyOf());
   }
 }

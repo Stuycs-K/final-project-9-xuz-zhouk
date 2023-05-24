@@ -22,6 +22,7 @@ public class Fruit {
   }
 
   void move() {
+    bounce();
     //apply acceleration to velocity
     //apply velocity to position
     velocity.sub(acceleration);
@@ -35,11 +36,12 @@ public class Fruit {
   void display() {
     if (type.equals("circle")) {
       update();
-      translate(position.x, position.y);
       pushMatrix();
+      translate(position.x, position.y);
       rotate(rotationAngle * rotationDirection);
       fill(c);
       ellipse(position.x,position.y,radius,radius/2);
+      rotate(-1 * rotationAngle * rotationDirection);
       noFill();
       popMatrix();
     }
@@ -96,7 +98,7 @@ public class Fruit {
 
     //add  force/mass to the acceleration to apply the force.
     f.setMag(f.mag()/mass);
-    acceleration.add(f);
+    acceleration.sub(f);
   }
   
   // update the cube
