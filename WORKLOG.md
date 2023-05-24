@@ -17,6 +17,8 @@ info
 implemented most of Button and FruitNinja class
 initialized start menu with clickable buttons
 
-### date y
+### date: 5-23-23
+added constructor to button that can accept PImages
+starting work on fruit physics
 
 info
