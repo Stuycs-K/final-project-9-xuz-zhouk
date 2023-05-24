@@ -25,9 +25,8 @@ public class Fruit {
     bounce();
     //apply acceleration to velocity
     //apply velocity to position
-    velocity.sub(acceleration);
+    velocity.add(acceleration);
     position.add(velocity);
-    acceleration.set(0,0);
 
     //bounce
     bounce();
@@ -37,14 +36,13 @@ public class Fruit {
     if (type.equals("circle")) {
       update();
       pushMatrix();
-      translate(position.x,position.y);
-      pushMatrix();
       translate(position.x, position.y);
       rotate(rotationAngle * rotationDirection);
       fill(c);
-      ellipse(position.x,position.y,radius,radius/2);
+      ellipse(0,0,radius,radius/2);
       noFill();
-      popMatrix();
+      //rotate(rotationAngle * rotationDirection * -1);
+      //translate(-1*position.x, -1*position.y);
       popMatrix();
     }
   }
@@ -65,8 +63,6 @@ public class Fruit {
       velocity.x=-1*abs(velocity.x);
     if (position.y < radius)
       velocity.y = abs(velocity.y);
-    if (position.y > height-radius)
-      velocity.y=-1*abs(velocity.y);
   }
   
   /**
