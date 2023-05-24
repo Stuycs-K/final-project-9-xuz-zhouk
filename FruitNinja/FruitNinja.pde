@@ -7,7 +7,13 @@ void draw() {
     for (int i = 0; i < fruitBox.size(); i++) {
       fruitBox.get(i).move();
       gameMenu();
-      fruitBox.get(i).display();
+      //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
+      if (fruitBox.get(i).getY() >= height + 300) {
+        fruitBox.remove(i);
+      }
+      else{
+        fruitBox.get(i).display();
+      }      
     }
   }
 }
@@ -71,7 +77,13 @@ void mousePressed() {
 
 void keyPressed() {
   if (!paused) {
-    Fruit testFruit = new Fruit(width, height, -5, -20, 5, 0, 100, 10);
+    int randomWidth;
+    int randomMagnitude;
+    int randomDirection;
+    randomWidth = (int)(Math.random() * (width-0+1) + 0);
+    randomMagnitude = (int)(Math.random() * (10-5+1) + 1);
+    randomDirection = (int)(Math.random() * (1-0+1) + 1);
+    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -20, 0, 0, 100, 10);
     fruitBox.add(testFruit.copyOf());
   }
 }

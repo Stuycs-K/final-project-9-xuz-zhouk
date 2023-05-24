@@ -25,6 +25,9 @@ public class Fruit {
 
     //bounce
     bounce();
+    
+    //spin
+    spin();
   }
 
   void display() {
@@ -39,8 +42,8 @@ public class Fruit {
     return new Fruit(position.x,position.y,velocity.x,velocity.y,rotationSpeed,rotationDirection,radius,mass);
   }
   
-  void applyGravity() {
-    
+  float getY() {
+    return position.y;
   }
 
   void bounce() {
@@ -49,5 +52,9 @@ public class Fruit {
       velocity.x = abs(velocity.x);
     if (position.x > width-radius)
       velocity.x=-1*abs(velocity.x);
+  }
+  
+  void spin() {
+    
   }
 }
