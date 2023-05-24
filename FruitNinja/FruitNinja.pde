@@ -14,6 +14,7 @@ void draw() {
       }
       else{
         fruitBox.get(i).display();
+        rotate(-1 * fruitBox.get(i).rotationAngle * fruitBox.get(i).rotationDirection);
         fruitBox.get(i).bounce();
         fruitBox.get(i).applyForce(fruitBox.get(i).attractTo(earth));
       }      
@@ -84,7 +85,7 @@ void keyPressed() {
     randomWidth = (int)(Math.random() * (width-0+1) + 0);
     randomMagnitude = (int)(Math.random() * (10-5+1) + 1);
     randomDirection = (int)(Math.random() * (1-0+1) + 1);
-    Fruit testFruit = new Fruit(0,0, 5, -5, 0.03, 1, 100, 10);
+    Fruit testFruit = new Fruit(width/2,height/2, 5, -35, 0.03, 1, 100, 10);
     fruitBox.add(testFruit.copyOf());
   }
 }

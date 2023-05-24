@@ -37,12 +37,14 @@ public class Fruit {
     if (type.equals("circle")) {
       update();
       pushMatrix();
+      translate(position.x,position.y);
+      pushMatrix();
       translate(position.x, position.y);
       rotate(rotationAngle * rotationDirection);
       fill(c);
       ellipse(position.x,position.y,radius,radius/2);
-      rotate(-1 * rotationAngle * rotationDirection);
       noFill();
+      popMatrix();
       popMatrix();
     }
   }
