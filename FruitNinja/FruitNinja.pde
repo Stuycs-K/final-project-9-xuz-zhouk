@@ -1,18 +1,20 @@
 Button startButton, pauseButton;
 PImage backgroundImg;
 boolean paused;
+Fruit earth;
 ArrayList<Fruit> fruitBox;
 void draw() {
   if (!paused) {
+    gameMenu();
     for (int i = 0; i < fruitBox.size(); i++) {
       fruitBox.get(i).move();
-      gameMenu();
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
       if (fruitBox.get(i).getY() >= height + 300) {
         fruitBox.remove(i);
       }
       else{
         fruitBox.get(i).display();
+        fruitBox.get(i).applyForce(fruitBox.get(i).attractTo(earth));
       }      
     }
   }
@@ -22,6 +24,7 @@ void setup() {
   size(960, 720);
   backgroundImg = loadImage("menuBackground.png");
   background(backgroundImg);
+  earth = new Fruit(width/2, height*500, 0, 0, 0, 0, 100000000, 500000000);
 
   //fruitBox intialize
   fruitBox = new ArrayList<Fruit>();
@@ -48,9 +51,6 @@ void gameMenu() {
   background(backgroundImg);
   pauseButton.display();
   paused = false;
-  for (int i = 0; i < fruitBox.size(); i++) {
-     fruitBox.get(i).display();
-  }
 }
 
 void pauseMenu() {
@@ -83,7 +83,7 @@ void keyPressed() {
     randomWidth = (int)(Math.random() * (width-0+1) + 0);
     randomMagnitude = (int)(Math.random() * (10-5+1) + 1);
     randomDirection = (int)(Math.random() * (1-0+1) + 1);
-    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -20, 0, 0, 100, 10);
+    Fruit testFruit = new Fruit(width/2, height/2, 5, -20, 0.03, 1, 100, 10);
     fruitBox.add(testFruit.copyOf());
   }
 }
