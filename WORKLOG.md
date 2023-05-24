@@ -21,4 +21,9 @@ initialized start menu with clickable buttons
 added constructor to button that can accept PImages
 starting work on fruit physics
 
+### date: 5-24-23
+added constructor to Fruit that can accept PImages
+adjusted size of png images to scale
+adjusted gravitational constant to simulate speed of fruit in the actual game
+
 info
