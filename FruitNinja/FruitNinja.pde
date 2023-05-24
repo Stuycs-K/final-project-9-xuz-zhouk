@@ -1,54 +1,89 @@
-Button startButton,pauseButton;
+Button startButton, pauseButton;
 PImage backgroundImg;
-ArrayList<Fruit> fruits;
+boolean paused;
+Fruit earth;
+ArrayList<Fruit> fruitBox;
 void draw() {
-  background(backgroundImg);
-  for (Fruit c: fruits) {
-    c.move();
-    c.display();
+  if (!paused) {
+    gameMenu();
+    for (int i = 0; i < fruitBox.size(); i++) {
+      fruitBox.get(i).move();
+      //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
+      if (fruitBox.get(i).getY() >= height + 300) {
+        fruitBox.remove(i);
+      }
+      else{
+        fruitBox.get(i).display();
+        fruitBox.get(i).applyForce(fruitBox.get(i).attractTo(earth));
+      }      
+    }
   }
 }
 
-void setup() { 
-  size(960,720);
+void setup() {
+  size(960, 720);
   backgroundImg = loadImage("menuBackground.png");
   background(backgroundImg);
+  earth = new Fruit(width/2, height*500, 0, 0, 0, 0, 100000000, 500000000);
+
+  //fruitBox intialize
+  fruitBox = new ArrayList<Fruit>();
+
+  //BUTTONS
+  PImage buttonImg = loadImage("pauseButton.png");
+  pauseButton = new Button(900, 45, buttonImg, color(0, 0, 0), "PAUSE", 1);
+  pauseButton.resize(100);
+
+  buttonImg = loadImage("playButton.png");
+  startButton = new Button(width/2, height/2, buttonImg, color(0, 0, 0), "START", 1);
+  startButton.resize(200);
+
   startMenu();
-  fruits = new ArrayList<Fruit>();
 }
 
 void startMenu() {
-  color b1 = color(0,0,0);
-  color b2 = color(255,255,255);
-  startButton = new Button(width/2,height/2,200,100,b1,b2,"START",73);
+  background(backgroundImg);
   startButton.display();
+  paused = true;
 }
 
 void gameMenu() {
   background(backgroundImg);
-  color b1 = color(0,0,0);
-  color b2 = color(255,255,255);
-  pauseButton = new Button(900,45,100,50,b1,b2,"PAUSE",35);
   pauseButton.display();
+  paused = false;
 }
 
 void pauseMenu() {
-  
+  gameMenu();
+  paused = true;
 }
 
- void mousePressed() {
-   if (startButton.update(mouseX,mouseY)) {
-     if (startButton.getText().equals("START")) {
-       System.out.println("start button pressed!");
-       gameMenu();
-     }
-   }
-   if (pauseButton.update(mouseX,mouseY)) {
-     if (pauseButton.getText().equals("PAUSE")) {
-       System.out.println("pause button pressed!");
-       pauseMenu();
-     }
-   }
-   fruits.add(new Fruit(mouseX, mouseY, 5, 20, 3, -1, 30, 500));
- }
-  
+void mousePressed() {
+  if (startButton.update(mouseX, mouseY)) {
+    if (startButton.getText().equals("START")) {
+      System.out.println("start button pressed!");
+      startButton.hide();
+      gameMenu();
+    }
+  }
+  if (pauseButton.update(mouseX, mouseY)) {
+    if (pauseButton.getText().equals("PAUSE")) {
+      System.out.println("pause button pressed!");
+      pauseButton.hide();
+      startMenu();
+    }
+  }
+}
+
+void keyPressed() {
+  if (!paused) {
+    int randomWidth;
+    int randomMagnitude;
+    int randomDirection;
+    randomWidth = (int)(Math.random() * (width-0+1) + 0);
+    randomMagnitude = (int)(Math.random() * (10-5+1) + 1);
+    randomDirection = (int)(Math.random() * (1-0+1) + 1);
+    Fruit testFruit = new Fruit(width/2, height/2, 5, -20, 0.03, 1, 100, 10);
+    fruitBox.add(testFruit.copyOf());
+  }
+}
