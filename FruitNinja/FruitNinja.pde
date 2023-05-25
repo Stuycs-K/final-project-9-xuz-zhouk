@@ -4,6 +4,7 @@ boolean paused;
 Fruit earth;
 ArrayList<Fruit> fruitBox;
 ArrayList<String> fruitTypes;
+ArrayList<Life> lifeBox;
 void draw() {
   if (!paused) {
     gameMenu();
@@ -17,6 +18,9 @@ void draw() {
         fruitBox.get(i).display();
       }      
     }
+    for (int i = 0; i < lifeBox.size(); i++) {
+      lifeBox.get(i).display();
+    }
   }
 }
 
@@ -28,7 +32,7 @@ void setup() {
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
   
-  //fruitTypes initialize;
+  //fruitTypes initialize
   fruitTypes = new ArrayList<String>();
   fruitTypes.add("watermelon.png");
   fruitTypes.add("banana.png");
@@ -38,6 +42,16 @@ void setup() {
   fruitTypes.add("pineapple.png");
   fruitTypes.add("coconut.png");
   fruitTypes.add("bomb.png");
+  
+  //lifeBox initialize
+  lifeBox = new ArrayList<Life>();
+  Life l1 = new Life(50,50);
+  Life l2 = new Life(150,50);
+  Life l3 = new Life(250,50);
+  l1.setLife(true);
+  lifeBox.add(l1);
+  lifeBox.add(l2);
+  lifeBox.add(l3);
   
   //BUTTONS
   PImage buttonImg = loadImage("pauseButton.png");
