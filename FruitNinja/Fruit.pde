@@ -6,8 +6,9 @@ public class Fruit {
   color c;
   String type;
   float rotationAngle;
-  float g = -0.05;
+  float g = 0.06;
   PImage img;
+  boolean isBomb;
    
   public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, float radius) {
     position = new PVector(xCoor, yCoor);
@@ -19,6 +20,7 @@ public class Fruit {
     rotationAngle = 0;
     this.rotationDirection = rotationDirection;
     this.rotationSpeed = rotationSpeed;
+    isBomb = false;
   }
   
   public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, PImage img) {
@@ -30,6 +32,7 @@ public class Fruit {
     this.rotationDirection = rotationDirection;
     this.rotationSpeed = rotationSpeed;
     this.img = img;
+    isBomb = false;
     if (img.width >= img.height) {
       radius = img.width;
     }
@@ -39,9 +42,10 @@ public class Fruit {
   }
 
   void move() {
+    bounce();
     //apply acceleration to velocity
     //apply velocity to position
-    velocity.sub(acceleration);
+    velocity.add(acceleration);
     position.add(velocity);
     acceleration.set(0,g);
 
@@ -85,6 +89,22 @@ public class Fruit {
   float getY() {
     return position.y;
   }
+  
+  float getX() {
+    return position.x;
+  }
+  
+  float getRadius() {
+    return radius;
+  }
+  
+  void makeBomb() {
+    isBomb = true;
+  }
+  
+  boolean isBomb() {
+    return isBomb;
+  }
 
   void bounce() {
     //bounce if hit left or right walls
@@ -94,8 +114,7 @@ public class Fruit {
       velocity.x=-1*abs(velocity.x);
   }
   
-  // update the cube
-  // all we're doing is rotating each axis
+  // update the cube by increasing angle of rotation
   void update() {
     rotationAngle += rotationSpeed;
   }
