@@ -4,36 +4,29 @@ boolean paused;
 Fruit earth;
 ArrayList<Fruit> fruitBox;
 ArrayList<String> fruitTypes;
-int countdown;
 void draw() {
   if (!paused) {
     gameMenu();
     for (int i = 0; i < fruitBox.size(); i++) {
       fruitBox.get(i).move();
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
-      if (fruitBox.get(i).getY() >= height + 300) {
+      if (fruitBox.get(i).getY() >= height + 100) {
         fruitBox.remove(i);
-      }
-      else{
+      } else {
         fruitBox.get(i).display();
-      }      
+      }
     }
   }
-  if (countdown > 0) {
-    countdown--;
-  }
-  
 }
 
 void setup() {
   size(960, 720);
-  countdown = 0;
   backgroundImg = loadImage("menuBackground.png");
   background(backgroundImg);
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
-  
+
   //fruitTypes initialize;
   fruitTypes = new ArrayList<String>();
   fruitTypes.add("watermelon.png");
@@ -44,7 +37,7 @@ void setup() {
   fruitTypes.add("pineapple.png");
   fruitTypes.add("coconut.png");
   fruitTypes.add("bomb.png");
-  
+
   //BUTTONS
   PImage buttonImg = loadImage("pauseButton.png");
   pauseButton = new Button(900, 45, buttonImg, color(0, 0, 0), "PAUSE", 1);
@@ -102,14 +95,14 @@ void keyPressed() {
     if (randomDirection == 0) {
       randomDirection = -1;
     }
-    //Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
     int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
     String whichFruit = fruitTypes.get(rand);
     PImage fruitSprite = loadImage(whichFruit);
-    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
+    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
     if (rand == fruitTypes.size()-1) {
       testFruit.makeBomb();
     }
+    testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
     fruitBox.add(testFruit);
   }
 }
@@ -117,28 +110,11 @@ void keyPressed() {
 void mouseDragged() {
   for (int i = 0; i < fruitBox.size(); i++) {
     Fruit curr = fruitBox.get(i);
-    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()*2) {
+    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()) {
       if (curr.isBomb()) {
         System.out.println("Oh no!");
       } else {
-        float xCoor = curr.getX();
-        float yCoor = curr.getY();
-        fruitBox.remove(curr);
-        //int randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
-        //int randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
-        //if (randomDirection == 0) {
-        //  randomDirection = -1;
-        //}
-        //Fruit testFruit1 = new Fruit(xCoor, yCoor, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
-        //Fruit testFruit2 = new Fruit(xCoor, yCoor, -randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
-        //fruitBox.add(i, testFruit1);
-        //fruitBox.add(i+1,testFruit2);
-        if (mousePressed) {
-          countdown+=30;
-        }
-          
-        fruitBox.add(new Fruit(width/2, height/2, 5, -7, 0.05, -1, 100));
-        
+        System.out.println("Cut");
       }
     }
   }
