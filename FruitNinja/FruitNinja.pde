@@ -37,6 +37,7 @@ void setup() {
   fruitTypes.add("orange.png");
   fruitTypes.add("pineapple.png");
   fruitTypes.add("coconut.png");
+  fruitTypes.add("bomb.png");
   
   //BUTTONS
   PImage buttonImg = loadImage("pauseButton.png");
@@ -96,10 +97,14 @@ void keyPressed() {
       randomDirection = -1;
     }
     //Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
-    String whichFruit = fruitTypes.get((int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0));
+    int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
+    String whichFruit = fruitTypes.get(rand);
     PImage fruitSprite = loadImage(whichFruit);
     Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
-    fruitBox.add(testFruit.copyOf());
+    if (rand == fruitTypes.size()-1) {
+      testFruit.makeBomb();
+    }
+    fruitBox.add(testFruit);
   }
 }
 
@@ -107,7 +112,11 @@ void mouseDragged() {
   for (int i = 0; i < fruitBox.size(); i++) {
     Fruit curr = fruitBox.get(i);
     if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()) {
-      System.out.println("Cut!" + curr.getX());
+      if (curr.isBomb()) {
+        System.out.println("Oh no!");
+      } else {
+        System.out.println("Cut!" + curr.getX());
+      }
     }
   }
 }
