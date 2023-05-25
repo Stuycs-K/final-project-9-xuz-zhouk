@@ -10,7 +10,7 @@ void draw() {
     for (int i = 0; i < fruitBox.size(); i++) {
       fruitBox.get(i).move();
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
-      if (fruitBox.get(i).getY() >= height + 300) {
+      if (fruitBox.get(i).getY() >= height + 100) {
         fruitBox.remove(i);
       }
       else{
@@ -96,7 +96,6 @@ void keyPressed() {
     if (randomDirection == 0) {
       randomDirection = -1;
     }
-    //Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
     int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
     String whichFruit = fruitTypes.get(rand);
     PImage fruitSprite = loadImage(whichFruit);
@@ -104,6 +103,7 @@ void keyPressed() {
     if (rand == fruitTypes.size()-1) {
       testFruit.makeBomb();
     }
+    testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
     fruitBox.add(testFruit);
   }
 }
