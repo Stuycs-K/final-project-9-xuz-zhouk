@@ -5,6 +5,7 @@ Fruit earth;
 ArrayList<Fruit> fruitBox;
 ArrayList<String> fruitTypes;
 ArrayList<Life> lifeBox;
+int lifeBoxIndex = 0;
 void draw() {
   if (!paused) {
     gameMenu();
@@ -12,11 +13,16 @@ void draw() {
       fruitBox.get(i).move();
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
       if (fruitBox.get(i).getY() >= height + 100) {
-        fruitBox.remove(i);
-      }
-      else{
+        Fruit f = fruitBox.remove(i);
+        if (!(f.isBomb())) {
+          if (lifeBoxIndex < lifeBox.size()) {
+            lifeBox.get(lifeBoxIndex).setLife(true);
+            lifeBoxIndex++;
+          }
+        }
+      } else {
         fruitBox.get(i).display();
-      }      
+      }
     }
     for (int i = 0; i < lifeBox.size(); i++) {
       lifeBox.get(i).display();
@@ -31,9 +37,10 @@ void setup() {
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
-  
+
   //fruitTypes initialize
   fruitTypes = new ArrayList<String>();
+  fruitTypes.add("bomb.png");
   fruitTypes.add("watermelon.png");
   fruitTypes.add("banana.png");
   fruitTypes.add("pear.png");
@@ -41,18 +48,17 @@ void setup() {
   fruitTypes.add("orange.png");
   fruitTypes.add("pineapple.png");
   fruitTypes.add("coconut.png");
-  fruitTypes.add("bomb.png");
   
+
   //lifeBox initialize
   lifeBox = new ArrayList<Life>();
-  Life l1 = new Life(50,50);
-  Life l2 = new Life(150,50);
-  Life l3 = new Life(250,50);
-  l1.setLife(true);
+  Life l1 = new Life(50, 50);
+  Life l2 = new Life(150, 50);
+  Life l3 = new Life(250, 50);
   lifeBox.add(l1);
   lifeBox.add(l2);
   lifeBox.add(l3);
-  
+
   //BUTTONS
   PImage buttonImg = loadImage("pauseButton.png");
   pauseButton = new Button(900, 45, buttonImg, color(0, 0, 0), "PAUSE", 1);
@@ -114,10 +120,10 @@ void keyPressed() {
     String whichFruit = fruitTypes.get(rand);
     PImage fruitSprite = loadImage(whichFruit);
     Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
-    if (rand == fruitTypes.size()-1) {
+    if (rand == 0) {
       testFruit.makeBomb();
     }
-    testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
+    //testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
     fruitBox.add(testFruit);
   }
 }
