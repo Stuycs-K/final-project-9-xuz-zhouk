@@ -123,7 +123,7 @@ void keyPressed() {
     if (rand == 0) {
       testFruit.makeBomb();
     }
-    //testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
+    testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
     fruitBox.add(testFruit);
   }
 }
@@ -136,6 +136,7 @@ void mouseDragged() {
         System.out.println("Oh no!");
       } else {
         System.out.println("Cut!" + curr.getX());
+        fruitBox.remove(curr);
       }
     }
   }
