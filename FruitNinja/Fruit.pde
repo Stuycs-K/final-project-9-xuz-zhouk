@@ -6,7 +6,7 @@ public class Fruit {
   color c;
   String type;
   float rotationAngle;
-  float g = -0.05;
+  float g = 0.05;
   PImage img;
    
   public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, float radius) {
@@ -42,7 +42,7 @@ public class Fruit {
     bounce();
     //apply acceleration to velocity
     //apply velocity to position
-    velocity.sub(acceleration);
+    velocity.add(acceleration);
     position.add(velocity);
     acceleration.set(0,g);
 
