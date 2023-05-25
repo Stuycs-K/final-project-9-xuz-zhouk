@@ -9,6 +9,10 @@ implemented gravity and movement for fruits
 ### date 5-23-2023
 worked on implementing rotation of fruit
 
+### date 5-24-2023
+implemented bomb fruits,
+implemented slicing methods that differentiates between bombs and fruits
+
 info
 
 
