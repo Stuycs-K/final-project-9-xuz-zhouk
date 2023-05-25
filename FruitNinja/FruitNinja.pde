@@ -52,16 +52,16 @@ void setup() {
 
   //lifeBox initialize
   lifeBox = new ArrayList<Life>();
-  Life l1 = new Life(50, 50);
-  Life l2 = new Life(150, 50);
-  Life l3 = new Life(250, 50);
+  Life l1 = new Life(710, 50);
+  Life l2 = new Life(810, 50);
+  Life l3 = new Life(910, 50);
   lifeBox.add(l1);
   lifeBox.add(l2);
   lifeBox.add(l3);
 
   //BUTTONS
   PImage buttonImg = loadImage("pauseButton.png");
-  pauseButton = new Button(900, 45, buttonImg, color(0, 0, 0), "PAUSE", 1);
+  pauseButton = new Button(60, 675, buttonImg, color(0, 0, 0), "PAUSE", 1);
   pauseButton.resize(100);
 
   buttonImg = loadImage("playButton.png");
@@ -123,7 +123,7 @@ void keyPressed() {
     if (rand == 0) {
       testFruit.makeBomb();
     }
-    testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
+    //testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
     fruitBox.add(testFruit);
   }
 }
