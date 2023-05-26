@@ -6,12 +6,17 @@
 worked alongside Kevin to provide him with insights,
 implemented gravity and movement for fruits
 
-### date 5-23-2023
+### date: 5-23-2023
 worked on implementing rotation of fruit
 
-### date 5-24-2023
+### date: 5-24-2023
 implemented bomb fruits,
 implemented slicing methods that differentiates between bombs and fruits
+
+### date: 5-25-2023
+implemented slicedfruit subclass where sliced fruits are non interactable,
+added continuous spawning of the fruits,
+finetuned slicing for the fruits but still need to work on properly displaying sliced fruits
 
 info
 
