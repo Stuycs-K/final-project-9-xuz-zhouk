@@ -1,7 +1,6 @@
 Button startButton, pauseButton;
 PImage backgroundImg;
 boolean paused;
-Fruit earth;
 ArrayList<Fruit> fruitBox;
 ArrayList<String> fruitTypes;
 int countdown;
@@ -16,6 +15,7 @@ void draw() {
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
       if (fruitBox.get(i).getY() >= height + 100) {
         Fruit f = fruitBox.remove(i);
+        
         if (!(f.isBomb() || f instanceof SlicedFruit)) {
           if (lifeBoxIndex < lifeBox.size()) {
             lifeBox.get(lifeBoxIndex).setLife(true);
@@ -155,10 +155,7 @@ void mouseDragged() {
           //Fruit testFruit2 = new Fruit(xCoor, yCoor, -randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
           //fruitBox.add(i, testFruit1);
           //fruitBox.add(i+1,testFruit2);
-          if (countdown == 0) {
-            countdown+=30;
-            fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, -1, 100));
-          }
+          fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, -1, 100));
         }
       }
     }
