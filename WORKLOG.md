@@ -31,4 +31,8 @@ added constructor to Fruit that can accept PImages,
 adjusted size of png images to scale,
 adjusted gravitational constant to simulate speed of fruit in the actual game
 
+### date: 5-25-23
+wrote the lives class and implemented them as a feature,
+started work on the slicing method
+
 info

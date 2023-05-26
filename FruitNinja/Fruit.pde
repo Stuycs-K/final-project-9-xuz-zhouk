@@ -105,6 +105,10 @@ public class Fruit {
   boolean isBomb() {
     return isBomb;
   }
+  
+  String getType() {
+    return type;
+  }
 
   void bounce() {
     //bounce if hit left or right walls
