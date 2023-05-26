@@ -122,4 +122,8 @@ public class Fruit {
   void update() {
     rotationAngle += rotationSpeed;
   }
+  
+  int getDirection() {
+    return rotationDirection;
+  }
 }

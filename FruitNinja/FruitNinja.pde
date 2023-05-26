@@ -130,7 +130,6 @@ void keyPressed() {
     if (rand == 0) {
       testFruit.makeBomb();
     }
-    //testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
     fruitBox.add(testFruit);
   }
 }
@@ -145,20 +144,9 @@ void mouseDragged() {
         if (!(curr instanceof SlicedFruit)) {
           float xCoor = curr.getX();
           float yCoor = curr.getY();
+          int direction = curr.getDirection();
           fruitBox.remove(curr);
-          //int randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
-          //int randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
-          //if (randomDirection == 0) {
-          //  randomDirection = -1;
-          //}
-          //Fruit testFruit1 = new Fruit(xCoor, yCoor, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
-          //Fruit testFruit2 = new Fruit(xCoor, yCoor, -randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
-          //fruitBox.add(i, testFruit1);
-          //fruitBox.add(i+1,testFruit2);
-          if (countdown == 0) {
-            countdown+=30;
-            fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, -1, 100));
-          }
+          fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, direction, 100));
         }
       }
     }
