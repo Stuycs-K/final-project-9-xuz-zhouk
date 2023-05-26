@@ -7,6 +7,7 @@ int countdown;
 ArrayList<Life> lifeBox;
 int lifeBoxIndex = 0;
 int score;
+PFont font;
 
 void draw() {
   if (!paused) {
@@ -56,6 +57,9 @@ void draw() {
     }
     fruitBox.add(testFruit);
   }
+  if (lifeBox.size() == 0) {
+    endMenu();
+  }
 }
 
 void setup() {
@@ -64,6 +68,7 @@ void setup() {
   backgroundImg = loadImage("menuBackground.png");
   background(backgroundImg);
   score = 0;
+  font = createFont("go3v2.ttf", 128);
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
@@ -98,7 +103,8 @@ void setup() {
   startButton = new Button(width/2, height/2, buttonImg, color(0, 0, 0), "START", 1);
   startButton.resize(200);
   
-
+  
+  
   startMenu();
 }
 
@@ -120,7 +126,12 @@ void pauseMenu() {
 }
 
 void endMenu() {
-  
+  background(backgroundImg);
+  paused = true;
+  textFont(font);
+  fill(255, 0, 0);
+  text("GAME OVER", width/2, 100);
+  noFill();
 }
 
 void mousePressed() {
@@ -185,8 +196,6 @@ void mouseDragged() {
 }
 
 void displayScore() {
-  PFont font;
-  font = createFont("go3v2.ttf", 128);
   textFont(font);
   fill(255, 165, 0);
   text(""+score, 50, 100);
