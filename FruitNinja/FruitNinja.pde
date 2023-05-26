@@ -34,7 +34,6 @@ void draw() {
     countdown--;
     System.out.println(countdown);
   }
-  
 }
 
 void setup() {
@@ -56,7 +55,7 @@ void setup() {
   fruitTypes.add("orange.png");
   fruitTypes.add("pineapple.png");
   fruitTypes.add("coconut.png");
-  
+
 
   //lifeBox initialize
   lifeBox = new ArrayList<Life>();
