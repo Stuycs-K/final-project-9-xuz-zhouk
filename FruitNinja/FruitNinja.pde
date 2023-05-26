@@ -15,7 +15,7 @@ void draw() {
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
       if (fruitBox.get(i).getY() >= height + 100) {
         Fruit f = fruitBox.remove(i);
-        
+
         if (!(f.isBomb() || f instanceof SlicedFruit)) {
           if (lifeBoxIndex < lifeBox.size()) {
             lifeBox.get(lifeBoxIndex).setLife(true);
@@ -33,6 +33,26 @@ void draw() {
   if (countdown > 0) {
     countdown--;
     System.out.println(countdown);
+  }
+  if (countdown == 0 && !paused) {
+    countdown+=45;
+    int randomWidth;
+    int randomMagnitude;
+    int randomDirection;
+    randomWidth = (int)(Math.random() * (width-0+1) + 0);
+    randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
+    randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+    if (randomDirection == 0) {
+      randomDirection = -1;
+    }
+    int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
+    String whichFruit = fruitTypes.get(rand);
+    PImage fruitSprite = loadImage(whichFruit);
+    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
+    if (rand == 0) {
+      testFruit.makeBomb();
+    }
+    fruitBox.add(testFruit);
   }
 }
 
@@ -112,6 +132,7 @@ void mousePressed() {
   }
 }
 
+/*
 void keyPressed() {
   if (!paused) {
     int randomWidth;
@@ -133,11 +154,12 @@ void keyPressed() {
     fruitBox.add(testFruit);
   }
 }
+*/
 
 void mouseDragged() {
   for (int i = 0; i < fruitBox.size(); i++) {
     Fruit curr = fruitBox.get(i);
-    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()*2) {
+    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()) {
       if (curr.isBomb()) {
         System.out.println("Oh no!");
       } else {
