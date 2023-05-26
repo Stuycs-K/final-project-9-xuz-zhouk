@@ -1,4 +1,4 @@
-Button startButton, pauseButton;
+Button startButton, pauseButton, restartButton;
 PImage backgroundImg;
 boolean paused;
 ArrayList<Fruit> fruitBox;
@@ -6,10 +6,12 @@ ArrayList<String> fruitTypes;
 int countdown;
 ArrayList<Life> lifeBox;
 int lifeBoxIndex = 0;
+int score;
 
 void draw() {
   if (!paused) {
     gameMenu();
+    displayScore();
     for (int i = 0; i < fruitBox.size(); i++) {
       fruitBox.get(i).move();
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
@@ -61,6 +63,7 @@ void setup() {
   countdown = 0;
   backgroundImg = loadImage("menuBackground.png");
   background(backgroundImg);
+  score = 0;
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
@@ -94,6 +97,7 @@ void setup() {
   buttonImg = loadImage("playButton.png");
   startButton = new Button(width/2, height/2, buttonImg, color(0, 0, 0), "START", 1);
   startButton.resize(200);
+  
 
   startMenu();
 }
@@ -113,6 +117,10 @@ void gameMenu() {
 void pauseMenu() {
   gameMenu();
   paused = true;
+}
+
+void endMenu() {
+  
 }
 
 void mousePressed() {
@@ -169,8 +177,18 @@ void mouseDragged() {
           int direction = curr.getDirection();
           fruitBox.remove(curr);
           fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, direction, 100));
+          score++;
         }
       }
     }
   }
+}
+
+void displayScore() {
+  PFont font;
+  font = createFont("go3v2.ttf", 128);
+  textFont(font);
+  fill(255, 165, 0);
+  text(""+score, 50, 100);
+  noFill();
 }
