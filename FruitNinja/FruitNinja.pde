@@ -1,7 +1,6 @@
 Button startButton, pauseButton;
 PImage backgroundImg;
 boolean paused;
-Fruit earth;
 ArrayList<Fruit> fruitBox;
 ArrayList<String> fruitTypes;
 int countdown;
@@ -16,6 +15,7 @@ void draw() {
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
       if (fruitBox.get(i).getY() >= height + 100) {
         Fruit f = fruitBox.remove(i);
+        
         if (!(f.isBomb() || f instanceof SlicedFruit)) {
           if (lifeBoxIndex < lifeBox.size()) {
             lifeBox.get(lifeBoxIndex).setLife(true);
@@ -146,7 +146,20 @@ void mouseDragged() {
           float yCoor = curr.getY();
           int direction = curr.getDirection();
           fruitBox.remove(curr);
+<<<<<<< HEAD
           fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, direction, 100));
+=======
+          //int randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
+          //int randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+          //if (randomDirection == 0) {
+          //  randomDirection = -1;
+          //}
+          //Fruit testFruit1 = new Fruit(xCoor, yCoor, randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
+          //Fruit testFruit2 = new Fruit(xCoor, yCoor, -randomMagnitude * randomDirection, -7, 0.05, randomDirection, 100);
+          //fruitBox.add(i, testFruit1);
+          //fruitBox.add(i+1,testFruit2);
+          fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, -1, 100));
+>>>>>>> 878518a8fda5a8cbac01a55d8c6ed5743e018473
         }
       }
     }
