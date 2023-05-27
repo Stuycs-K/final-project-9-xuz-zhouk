@@ -18,6 +18,10 @@ implemented slicedfruit subclass where sliced fruits are non interactable,
 added continuous spawning of the fruits,
 finetuned slicing for the fruits but still need to work on properly displaying sliced fruits
 
+### date: 5-26-2023
+started implementing a displayScore method
+started implementing end game screen
+
 info
 
 
