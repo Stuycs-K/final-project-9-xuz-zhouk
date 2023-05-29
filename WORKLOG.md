@@ -44,4 +44,7 @@ adjusted gravitational constant to simulate speed of fruit in the actual game
 wrote the lives class and implemented them as a feature,
 started work on the slicing method
 
+### date: 5-26-2023 - 5-29-2023
+added all the png images for sliced fruit after editing using gimp
+
 info
