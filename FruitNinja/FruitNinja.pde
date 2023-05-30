@@ -216,7 +216,8 @@ void keyPressed() {
 void mouseDragged() {
   for (int i = 0; i < fruitBox.size(); i++) {
     Fruit curr = fruitBox.get(i);
-    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()) {
+    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()
+        && dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/12) {
       if (curr.isBomb()) {
         System.out.println("Oh no!");
         endMenu();
