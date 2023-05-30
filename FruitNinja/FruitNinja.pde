@@ -222,7 +222,7 @@ void mouseDragged() {
         endMenu();
       } else {
         if (!(curr instanceof SlicedFruit)) {
-          /*
+          
           float xCoor = curr.getX();
           float yCoor = curr.getY();
           int direction = curr.getDirection();
@@ -235,13 +235,15 @@ void mouseDragged() {
           fruitBox.add(new SlicedFruit(xCoor+10, yCoor, -10, 0, 0.05, -direction, topSprite));
           fruitBox.add(new SlicedFruit(xCoor-10, yCoor, 10, 0, 0.05, direction, bottomSprite));
           score++;
-          */
+          /*
           float xCoor = curr.getX();
           float yCoor = curr.getY();
           int direction = curr.getDirection();
           fruitBox.remove(curr);
           fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, direction, 100));
           fruitBox.add(new SlicedFruit(xCoor, yCoor, -5, 0, 0.05, -direction, 100));
+          */
+          
           score++;
         }
       }
