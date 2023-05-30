@@ -221,13 +221,7 @@ void mouseDragged() {
         System.out.println("Oh no!");
         endMenu();
       } else {
-<<<<<<< HEAD
         if (!(curr.sliced())) {
-          /*
-=======
-        if (!(curr instanceof SlicedFruit)) {
-          
->>>>>>> KevinPhase1
           float xCoor = curr.getX();
           float yCoor = curr.getY();
           int direction = curr.getDirection();
@@ -244,31 +238,6 @@ void mouseDragged() {
           fruitBox.add(fruit1);
           fruitBox.add(fruit2);
           score++;
-<<<<<<< HEAD
-          */
-          
-=======
-          /*
->>>>>>> KevinPhase1
-          float xCoor = curr.getX();
-          float yCoor = curr.getY();
-          int direction = curr.getDirection();
-          fruitBox.remove(curr);
-<<<<<<< HEAD
-          Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, 100);
-          Fruit fruit2 = new Fruit(xCoor, yCoor, -5, 0, 0.05, -direction, 100);
-          fruit1.setSliced();
-          fruit2.setSliced();
-          fruitBox.add(fruit1);
-          fruitBox.add(fruit2);
-=======
-          fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, direction, 100));
-          fruitBox.add(new SlicedFruit(xCoor, yCoor, -5, 0, 0.05, -direction, 100));
-          */
-          
->>>>>>> KevinPhase1
-          score++;
-          
         }
       }
     }
