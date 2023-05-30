@@ -10,7 +10,7 @@ ArrayList<Life> lifeBox;
 int lifeBoxIndex = 0;
 int score;
 PFont font;
-String fruitType = "banana";
+
 
 void draw() {
   if (!paused) {
@@ -53,8 +53,7 @@ void draw() {
     }
     int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
     String whichFruit = fruitTypes.get(rand);
-    //TROUBLE
-    PImage fruitSprite = loadImage(fruitType + ".png");
+    PImage fruitSprite = loadImage(whichFruit);
     Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
     if (rand == 0) {
       testFruit.makeBomb();
@@ -233,10 +232,6 @@ void mouseDragged() {
           fruitBox.remove(curr);
           String fruitTop = slicedFruitTypes.get(index-1).get(0);
           String fruitBottom = slicedFruitTypes.get(index-1).get(1);
-          
-//TROUBLE
-          fruitTop = fruitType + "Top.png";
-          fruitBottom = fruitType + "Bottom.png";
           
           PImage topSprite = loadImage(fruitTop);
           PImage bottomSprite = loadImage(fruitBottom);
