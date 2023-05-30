@@ -11,6 +11,7 @@ int lifeBoxIndex = 0;
 int score;
 PFont font;
 
+
 void draw() {
   if (!paused) {
     gameMenu();
@@ -216,8 +217,8 @@ void keyPressed() {
 void mouseDragged() {
   for (int i = 0; i < fruitBox.size(); i++) {
     Fruit curr = fruitBox.get(i);
-    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()
-        && dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/12) {
+    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()) {
+        //&& dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/12) {
       if (curr.isBomb()) {
         System.out.println("Oh no!");
         endMenu();
@@ -230,6 +231,7 @@ void mouseDragged() {
           fruitBox.remove(curr);
           String fruitTop = slicedFruitTypes.get(index-1).get(0);
           String fruitBottom = slicedFruitTypes.get(index-1).get(1);
+          
           PImage topSprite = loadImage(fruitTop);
           PImage bottomSprite = loadImage(fruitBottom);
           Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, topSprite);
@@ -238,6 +240,7 @@ void mouseDragged() {
           fruit2.setSliced();
           fruitBox.add(fruit1);
           fruitBox.add(fruit2);
+
           score++;
         }
       }
