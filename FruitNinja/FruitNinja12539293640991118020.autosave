@@ -21,7 +21,7 @@ void draw() {
       if (fruitBox.get(i).getY() >= height + 100) {
         Fruit f = fruitBox.remove(i);
 
-        if (!(f.isBomb() || f.sliced())) {
+        if (!(f.isBomb() || f instanceof SlicedFruit)) {
           if (lifeBoxIndex < lifeBox.size()) {
             lifeBox.get(lifeBoxIndex).setLife(true);
             lifeBoxIndex++;
@@ -221,7 +221,7 @@ void mouseDragged() {
         System.out.println("Oh no!");
         endMenu();
       } else {
-        if (!(curr.sliced())) {
+        if (!(curr instanceof SlicedFruit)) {
           /*
           float xCoor = curr.getX();
           float yCoor = curr.getY();
@@ -232,12 +232,8 @@ void mouseDragged() {
           String fruitBottom = slicedFruitTypes.get(index-1).get(1);
           PImage topSprite = loadImage(fruitTop);
           PImage bottomSprite = loadImage(fruitBottom);
-          Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, topSprite);
-          Fruit fruit2 = new Fruit(xCoor, yCoor, -5, 0, 0.05, -direction, bottomSprite);
-          fruit1.setSliced();
-          fruit2.setSliced();
-          fruitBox.add(fruit1);
-          fruitBox.add(fruit2);
+          fruitBox.add(new SlicedFruit(xCoor+10, yCoor, -10, 0, 0.05, -direction, topSprite));
+          fruitBox.add(new SlicedFruit(xCoor-10, yCoor, 10, 0, 0.05, direction, bottomSprite));
           score++;
           */
           
@@ -245,12 +241,8 @@ void mouseDragged() {
           float yCoor = curr.getY();
           int direction = curr.getDirection();
           fruitBox.remove(curr);
-          Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, 100);
-          Fruit fruit2 = new Fruit(xCoor, yCoor, -5, 0, 0.05, -direction, 100);
-          fruit1.setSliced();
-          fruit2.setSliced();
-          fruitBox.add(fruit1);
-          fruitBox.add(fruit2);
+          fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, direction, 100));
+          fruitBox.add(new SlicedFruit(xCoor, yCoor, -5, 0, 0.05, -direction, 100));
           score++;
           
         }

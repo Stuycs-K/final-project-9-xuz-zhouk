@@ -10,6 +10,7 @@ public class Fruit {
   PImage img;
   boolean isBomb;
   int fruitIndex;
+  boolean sliced;
    
   public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, float radius) {
     position = new PVector(xCoor, yCoor);
@@ -22,6 +23,7 @@ public class Fruit {
     this.rotationDirection = rotationDirection;
     this.rotationSpeed = rotationSpeed;
     isBomb = false;
+    sliced = false;
   }
   
   public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, PImage img) {
@@ -40,6 +42,7 @@ public class Fruit {
     else {
       radius = img.height;
     }
+    sliced = false;
   }
 
   void move() {
@@ -134,5 +137,13 @@ public class Fruit {
   
   int getIndex() {
     return fruitIndex;
+  }
+  
+  void setSliced() {
+    sliced = true;
+  }
+  
+  boolean sliced() {
+    return sliced;
   }
 }
