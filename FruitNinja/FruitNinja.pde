@@ -1,8 +1,10 @@
-Button startButton, pauseButton, restartButton;
+import java.util.*;
+Button startButton, pauseButton, backButton;
 PImage backgroundImg;
 boolean paused;
 ArrayList<Fruit> fruitBox;
 ArrayList<String> fruitTypes;
+ArrayList<ArrayList<String>> slicedFruitTypes;
 int countdown;
 ArrayList<Life> lifeBox;
 int lifeBoxIndex = 0;
@@ -38,7 +40,7 @@ void draw() {
     System.out.println(countdown);
   }
   if (countdown == 0 && !paused) {
-    countdown+=45;
+    countdown+=30;
     int randomWidth;
     int randomMagnitude;
     int randomDirection;
@@ -55,9 +57,16 @@ void draw() {
     if (rand == 0) {
       testFruit.makeBomb();
     }
+    testFruit.setIndex(rand);
     fruitBox.add(testFruit);
   }
-  if (lifeBox.size() == 0) {
+  int numLives = 3;
+  for (Life life: lifeBox) {
+    if (life.filled()) {
+      numLives--;
+    }
+  }
+  if (numLives == 0) {
     endMenu();
   }
 }
@@ -83,7 +92,17 @@ void setup() {
   fruitTypes.add("orange.png");
   fruitTypes.add("pineapple.png");
   fruitTypes.add("coconut.png");
-
+  
+  //slicedFruitTypes initialize
+  slicedFruitTypes = new ArrayList<ArrayList<String>>();
+  slicedFruitTypes.add(new ArrayList<String>(List.of("watermelonTop.png", "watermelonBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("bananaTop.png", "bananaBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("pearTop.png", "pearBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("pomegranateTop.png", "pomegranateBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("orangeTop.png", "orangeBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("pineappleTop.png", "pineappleBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("coconutTop.png", "coconutBottom.png")));
+  
 
   //lifeBox initialize
   lifeBox = new ArrayList<Life>();
@@ -103,7 +122,9 @@ void setup() {
   startButton = new Button(width/2, height/2, buttonImg, color(0, 0, 0), "START", 1);
   startButton.resize(200);
   
-  
+  buttonImg = loadImage("backButton.png");
+  backButton = new Button(width/2, height/2+200, buttonImg, color(0,0,0), "BACK", 1);
+  backButton.resize(100);
   
   startMenu();
 }
@@ -130,8 +151,12 @@ void endMenu() {
   paused = true;
   textFont(font);
   fill(255, 0, 0);
-  text("GAME OVER", width/2, 100);
+  text("GAME OVER", 150, 100);
   noFill();
+  fill(255, 165, 0);
+  text("Final Score: "+score, 20, 200);
+  noFill();
+  backButton.display();
 }
 
 void mousePressed() {
@@ -146,6 +171,19 @@ void mousePressed() {
     if (pauseButton.getText().equals("PAUSE")) {
       System.out.println("pause button pressed!");
       pauseButton.hide();
+      startMenu();
+    }
+  }
+  if (backButton.update(mouseX, mouseY)) {
+    if (backButton.getText().equals("BACK")) {
+      System.out.println("back button pressed!");
+      backButton.hide();
+      score = 0;
+      fruitBox.clear();
+      for (Life life: lifeBox) {
+        life.setLife(false);
+      }
+      lifeBoxIndex = 0;
       startMenu();
     }
   }
@@ -181,13 +219,29 @@ void mouseDragged() {
     if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()) {
       if (curr.isBomb()) {
         System.out.println("Oh no!");
+        endMenu();
       } else {
         if (!(curr instanceof SlicedFruit)) {
+          /*
+          float xCoor = curr.getX();
+          float yCoor = curr.getY();
+          int direction = curr.getDirection();
+          int index = curr.getIndex();
+          fruitBox.remove(curr);
+          String fruitTop = slicedFruitTypes.get(index-1).get(0);
+          String fruitBottom = slicedFruitTypes.get(index-1).get(1);
+          PImage topSprite = loadImage(fruitTop);
+          PImage bottomSprite = loadImage(fruitBottom);
+          fruitBox.add(new SlicedFruit(xCoor+10, yCoor, -10, 0, 0.05, -direction, topSprite));
+          fruitBox.add(new SlicedFruit(xCoor-10, yCoor, 10, 0, 0.05, direction, bottomSprite));
+          score++;
+          */
           float xCoor = curr.getX();
           float yCoor = curr.getY();
           int direction = curr.getDirection();
           fruitBox.remove(curr);
           fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, direction, 100));
+          fruitBox.add(new SlicedFruit(xCoor, yCoor, -5, 0, 0.05, -direction, 100));
           score++;
         }
       }
