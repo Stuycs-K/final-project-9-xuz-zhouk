@@ -19,8 +19,13 @@ added continuous spawning of the fruits,
 finetuned slicing for the fruits but still need to work on properly displaying sliced fruits
 
 ### date: 5-26-2023
-started implementing a displayScore method
+started implementing a displayScore method,
 started implementing end game screen
+
+### date: 5-29-23
+finished implementing end game screen,
+"back" button resets stats from previous run,
+starting implementing slicing with images
 
 info
 
@@ -43,5 +48,8 @@ adjusted gravitational constant to simulate speed of fruit in the actual game
 ### date: 5-25-23
 wrote the lives class and implemented them as a feature,
 started work on the slicing method
+
+### date: 5-29-23
+uploaded the sliced fruit pimages onto the main branch
 
 info
