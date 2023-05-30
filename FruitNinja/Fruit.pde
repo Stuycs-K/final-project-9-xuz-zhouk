@@ -9,6 +9,7 @@ public class Fruit {
   float g = 0.06;
   PImage img;
   boolean isBomb;
+  int fruitIndex;
    
   public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, float radius) {
     position = new PVector(xCoor, yCoor);
@@ -125,5 +126,13 @@ public class Fruit {
   
   int getDirection() {
     return rotationDirection;
+  }
+  
+  void setIndex(int i) {
+    fruitIndex = i;
+  }
+  
+  int getIndex() {
+    return fruitIndex;
   }
 }
