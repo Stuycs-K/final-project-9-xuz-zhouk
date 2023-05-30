@@ -1,4 +1,4 @@
-Button startButton, pauseButton, restartButton;
+Button startButton, pauseButton, backButton;
 PImage backgroundImg;
 boolean paused;
 ArrayList<Fruit> fruitBox;
@@ -38,7 +38,7 @@ void draw() {
     System.out.println(countdown);
   }
   if (countdown == 0 && !paused) {
-    countdown+=45;
+    countdown+=30;
     int randomWidth;
     int randomMagnitude;
     int randomDirection;
@@ -57,7 +57,13 @@ void draw() {
     }
     fruitBox.add(testFruit);
   }
-  if (lifeBox.size() == 0) {
+  int numLives = 3;
+  for (Life life: lifeBox) {
+    if (life.filled()) {
+      numLives--;
+    }
+  }
+  if (numLives == 0) {
     endMenu();
   }
 }
@@ -103,7 +109,9 @@ void setup() {
   startButton = new Button(width/2, height/2, buttonImg, color(0, 0, 0), "START", 1);
   startButton.resize(200);
   
-  
+  buttonImg = loadImage("backButton.png");
+  backButton = new Button(width/2, height/2+200, buttonImg, color(0,0,0), "BACK", 1);
+  backButton.resize(100);
   
   startMenu();
 }
@@ -130,8 +138,9 @@ void endMenu() {
   paused = true;
   textFont(font);
   fill(255, 0, 0);
-  text("GAME OVER", width/2, 100);
+  text("GAME OVER", 150, 100);
   noFill();
+  backButton.display();
 }
 
 void mousePressed() {
@@ -146,6 +155,19 @@ void mousePressed() {
     if (pauseButton.getText().equals("PAUSE")) {
       System.out.println("pause button pressed!");
       pauseButton.hide();
+      startMenu();
+    }
+  }
+  if (backButton.update(mouseX, mouseY)) {
+    if (backButton.getText().equals("BACK")) {
+      System.out.println("back button pressed!");
+      backButton.hide();
+      score = 0;
+      fruitBox.clear();
+      for (Life life: lifeBox) {
+        life.setLife(false);
+      }
+      lifeBoxIndex = 0;
       startMenu();
     }
   }

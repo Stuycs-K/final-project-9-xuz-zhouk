@@ -27,4 +27,8 @@ public class Life {
   void setLife(boolean b) {
     filled = b;
   }
+  
+  boolean filled() {
+    return filled;
+  }
 }
