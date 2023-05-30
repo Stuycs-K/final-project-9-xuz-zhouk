@@ -52,4 +52,7 @@ started work on the slicing method
 ### date: 5-26-2023 - 5-29-2023
 added all the png images for sliced fruit after editing using gimp
 
+### date: 5-30-2023
+cleaned up the sprites by resizing (gimp field day xd)
+
 info
