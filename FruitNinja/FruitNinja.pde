@@ -10,6 +10,7 @@ ArrayList<Life> lifeBox;
 int lifeBoxIndex = 0;
 int score;
 PFont font;
+String fruitType = "banana";
 
 void draw() {
   if (!paused) {
@@ -52,7 +53,8 @@ void draw() {
     }
     int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
     String whichFruit = fruitTypes.get(rand);
-    PImage fruitSprite = loadImage(whichFruit);
+    //TROUBLE
+    PImage fruitSprite = loadImage(fruitType + ".png");
     Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
     if (rand == 0) {
       testFruit.makeBomb();
@@ -221,13 +223,9 @@ void mouseDragged() {
         System.out.println("Oh no!");
         endMenu();
       } else {
-<<<<<<< HEAD
+
         if (!(curr.sliced())) {
-          /*
-=======
-        if (!(curr instanceof SlicedFruit)) {
           
->>>>>>> KevinPhase1
           float xCoor = curr.getX();
           float yCoor = curr.getY();
           int direction = curr.getDirection();
@@ -235,6 +233,11 @@ void mouseDragged() {
           fruitBox.remove(curr);
           String fruitTop = slicedFruitTypes.get(index-1).get(0);
           String fruitBottom = slicedFruitTypes.get(index-1).get(1);
+          
+//TROUBLE
+          fruitTop = fruitType + "Top.png";
+          fruitBottom = fruitType + "Bottom.png";
+          
           PImage topSprite = loadImage(fruitTop);
           PImage bottomSprite = loadImage(fruitBottom);
           Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, topSprite);
@@ -243,32 +246,7 @@ void mouseDragged() {
           fruit2.setSliced();
           fruitBox.add(fruit1);
           fruitBox.add(fruit2);
-          score++;
-<<<<<<< HEAD
-          */
-          
-=======
-          /*
->>>>>>> KevinPhase1
-          float xCoor = curr.getX();
-          float yCoor = curr.getY();
-          int direction = curr.getDirection();
-          fruitBox.remove(curr);
-<<<<<<< HEAD
-          Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, 100);
-          Fruit fruit2 = new Fruit(xCoor, yCoor, -5, 0, 0.05, -direction, 100);
-          fruit1.setSliced();
-          fruit2.setSliced();
-          fruitBox.add(fruit1);
-          fruitBox.add(fruit2);
-=======
-          fruitBox.add(new SlicedFruit(xCoor, yCoor, 5, 0, 0.05, direction, 100));
-          fruitBox.add(new SlicedFruit(xCoor, yCoor, -5, 0, 0.05, -direction, 100));
-          */
-          
->>>>>>> KevinPhase1
-          score++;
-          
+          score++;     
         }
       }
     }
