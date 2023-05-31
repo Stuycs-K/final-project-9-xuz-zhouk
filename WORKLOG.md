@@ -37,20 +37,20 @@ info
 ## GROUP MEMBER 2: Kevin Zhou
 
 ### date: 5-22-23
-implemented most of Button and FruitNinja class,  
+implemented most of Button and FruitNinja class    
 initialized start menu with clickable buttons  
 
 ### date: 5-23-23
-added constructor to button that can accept PImages,  
+added constructor to button that can accept PImages  
 starting work on fruit physics  
 
 ### date: 5-24-23
-added constructor to Fruit that can accept PImages,  
-adjusted size of png images to scale,  
+added constructor to Fruit that can accept PImages   
+adjusted size of png images to scale  
 adjusted gravitational constant to simulate speed of fruit in the actual game  
 
 ### date: 5-25-23
-wrote the lives class and implemented them as a feature,  
+wrote the lives class and implemented them as a feature  
 started work on the slicing method  
 
 ### date: 5-26-2023 - 5-29-2023
@@ -58,5 +58,8 @@ added all the png images for sliced fruit after editing using gimp
 
 ### date: 5-30-2023
 cleaned up the sprites by resizing (gimp field day xd)  
+
+### date: 5-31-2023
+implemented combos, but was forced to revert to old implementation of slicing because of broken functionality
 
 info
