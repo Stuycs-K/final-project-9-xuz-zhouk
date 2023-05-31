@@ -10,7 +10,7 @@ ArrayList<Life> lifeBox;
 int lifeBoxIndex = 0;
 int score;
 PFont font;
-
+int boundary;
 
 void draw() {
   if (!paused) {
@@ -38,10 +38,11 @@ void draw() {
   }
   if (countdown > 0) {
     countdown--;
-    System.out.println(countdown);
+    //System.out.println(countdown);
   }
+  System.out.println(frameCount);
   if (countdown == 0 && !paused) {
-    countdown+=30;
+    countdown+=boundary;
     int randomWidth;
     int randomMagnitude;
     int randomDirection;
@@ -70,15 +71,23 @@ void draw() {
   if (numLives == 0) {
     endMenu();
   }
+  if (frameCount % 300 == 0) {
+    boundary -= 5;
+  }
+  if (boundary < 20) {
+    boundary = 20;
+  }
 }
 
 void setup() {
   size(960, 720);
+  frameRate(60);
   countdown = 0;
   backgroundImg = loadImage("menuBackground.png");
   background(backgroundImg);
   score = 0;
   font = createFont("go3v2.ttf", 128);
+  boundary = 60;
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
@@ -155,7 +164,8 @@ void endMenu() {
   text("GAME OVER", 150, 100);
   noFill();
   fill(255, 165, 0);
-  text("Final Score: "+score, 20, 200);
+  text("Final Score: ", 120, 200);
+  text(""+score, width/2-10, 300);
   noFill();
   backButton.display();
 }
@@ -185,6 +195,7 @@ void mousePressed() {
         life.setLife(false);
       }
       lifeBoxIndex = 0;
+      boundary = 60;
       startMenu();
     }
   }
@@ -217,8 +228,8 @@ void keyPressed() {
 void mouseDragged() {
   for (int i = 0; i < fruitBox.size(); i++) {
     Fruit curr = fruitBox.get(i);
-    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()) {
-        //&& dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/12) {
+    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()
+       && dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/12) {
       if (curr.isBomb()) {
         System.out.println("Oh no!");
         endMenu();
