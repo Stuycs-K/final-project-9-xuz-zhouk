@@ -27,6 +27,10 @@ finished implementing end game screen,
 "back" button resets stats from previous run,
 starting implementing slicing with images
 
+### date: 5-30-23
+deleted SlicedFruit class and made "sliced" a field
+improved slicing by making it less sensitive
+
 info
 
 
