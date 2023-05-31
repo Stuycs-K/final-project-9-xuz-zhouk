@@ -7,16 +7,27 @@ ArrayList<String> fruitTypes;
 ArrayList<ArrayList<String>> slicedFruitTypes;
 int countdown;
 ArrayList<Life> lifeBox;
+Combo currentCombo = null;
+int comboCounter = 0;
 int lifeBoxIndex = 0;
 int score;
+int scoreIncrease = 0;
+int scoreCounter = 0;
 PFont font;
 int boundary;
-
 
 void draw() {
   if (!paused) {
     gameMenu();
     displayScore();
+    if (scoreIncrease > 0) {
+      scoreCounter++;
+    }
+    if (scoreCounter >= 20) {
+      scoreIncrease = 0;
+      scoreCounter = 0;
+    }
+
     for (int i = 0; i < fruitBox.size(); i++) {
       fruitBox.get(i).move();
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
@@ -36,12 +47,21 @@ void draw() {
     for (int i = 0; i < lifeBox.size(); i++) {
       lifeBox.get(i).display();
     }
+    if (currentCombo != null) {
+      currentCombo.display();
+      if (currentCombo.getDisplay() >= 25) {
+        currentCombo = null;
+      }
+    }
+    if (frameCount % 50 == 0) {
+      comboCounter = 0;
+    }
   }
   if (countdown > 0) {
     countdown--;
     //System.out.println(countdown);
   }
-  System.out.println(frameCount);
+  //System.out.println(frameCount);
   if (countdown == 0 && !paused) {
     countdown+=boundary;
     int randomWidth;
@@ -64,7 +84,7 @@ void draw() {
     fruitBox.add(testFruit);
   }
   int numLives = 3;
-  for (Life life: lifeBox) {
+  for (Life life : lifeBox) {
     if (life.filled()) {
       numLives--;
     }
@@ -103,7 +123,7 @@ void setup() {
   fruitTypes.add("orange.png");
   fruitTypes.add("pineapple.png");
   fruitTypes.add("coconut.png");
-  
+
   //slicedFruitTypes initialize
   slicedFruitTypes = new ArrayList<ArrayList<String>>();
   slicedFruitTypes.add(new ArrayList<String>(List.of("watermelonTop.png", "watermelonBottom.png")));
@@ -113,7 +133,7 @@ void setup() {
   slicedFruitTypes.add(new ArrayList<String>(List.of("orangeTop.png", "orangeBottom.png")));
   slicedFruitTypes.add(new ArrayList<String>(List.of("pineappleTop.png", "pineappleBottom.png")));
   slicedFruitTypes.add(new ArrayList<String>(List.of("coconutTop.png", "coconutBottom.png")));
-  
+
 
   //lifeBox initialize
   lifeBox = new ArrayList<Life>();
@@ -132,11 +152,11 @@ void setup() {
   buttonImg = loadImage("playButton.png");
   startButton = new Button(width/2, height/2, buttonImg, color(0, 0, 0), "START", 1);
   startButton.resize(200);
-  
+
   buttonImg = loadImage("backButton.png");
-  backButton = new Button(width/2, height/2+200, buttonImg, color(0,0,0), "BACK", 1);
+  backButton = new Button(width/2, height/2+200, buttonImg, color(0, 0, 0), "BACK", 1);
   backButton.resize(100);
-  
+
   startMenu();
 }
 
@@ -192,7 +212,7 @@ void mousePressed() {
       backButton.hide();
       score = 0;
       fruitBox.clear();
-      for (Life life: lifeBox) {
+      for (Life life : lifeBox) {
         life.setLife(false);
       }
       lifeBoxIndex = 0;
@@ -226,11 +246,13 @@ void keyPressed() {
 }
 */
 
+
 void mouseDragged() {
   for (int i = 0; i < fruitBox.size(); i++) {
     Fruit curr = fruitBox.get(i);
     if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()
-       && dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/12) {
+      //&& dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/12
+      ) {
       if (curr.isBomb()) {
         System.out.println("Oh no!");
         endMenu();
@@ -243,7 +265,7 @@ void mouseDragged() {
           fruitBox.remove(curr);
           String fruitTop = slicedFruitTypes.get(index-1).get(0);
           String fruitBottom = slicedFruitTypes.get(index-1).get(1);
-          
+
           PImage topSprite = loadImage(fruitTop);
           PImage bottomSprite = loadImage(fruitBottom);
           Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, topSprite);
@@ -253,7 +275,27 @@ void mouseDragged() {
           fruitBox.add(fruit1);
           fruitBox.add(fruit2);
 
-          score++;
+          comboCounter++;
+          if (comboCounter >=10) {
+            currentCombo = new Combo(5);
+            score = score + 10 * comboCounter;
+            scoreIncrease = 10 * comboCounter;
+          } else {
+            if (comboCounter >=5 && comboCounter < 10) {
+              currentCombo = new Combo(3);
+              score = score + 3 * comboCounter;
+              scoreIncrease = 3 * comboCounter;
+            } else {
+              if (comboCounter == 3 || comboCounter == 4) {
+                currentCombo = new Combo(2);
+                score = score + 2 * comboCounter;
+                scoreIncrease = 2 * comboCounter;
+              } else {
+                score++;
+                scoreIncrease = 1;
+              }
+            }
+          }
         }
       }
     }
@@ -263,6 +305,10 @@ void mouseDragged() {
 void displayScore() {
   textFont(font);
   fill(255, 165, 0);
-  text(""+score, 50, 100);
+  if (scoreIncrease != 0) {
+    text(""+score + " +" + scoreIncrease, 50, 100);
+  } else {
+    text(""+score, 50, 100);
+  }
   noFill();
 }
