@@ -7,34 +7,21 @@ ArrayList<String> fruitTypes;
 ArrayList<ArrayList<String>> slicedFruitTypes;
 int countdown;
 ArrayList<Life> lifeBox;
-Combo currentCombo = null;
-int comboCounter = 0;
 int lifeBoxIndex = 0;
 int score;
-int scoreIncrease = 0;
-int scoreCounter = 0;
 PFont font;
-int boundary;
+
 
 void draw() {
   if (!paused) {
     gameMenu();
     displayScore();
-    if (scoreIncrease > 0) {
-      scoreCounter++;
-    }
-    if (scoreCounter >= 20) {
-      scoreIncrease = 0;
-      scoreCounter = 0;
-    }
-
     for (int i = 0; i < fruitBox.size(); i++) {
       fruitBox.get(i).move();
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
       if (fruitBox.get(i).getY() >= height + 100) {
         Fruit f = fruitBox.remove(i);
-        
-        //fills in a life box when the fruit is not a bomb and its not sliced
+
         if (!(f.isBomb() || f.sliced())) {
           if (lifeBoxIndex < lifeBox.size()) {
             lifeBox.get(lifeBoxIndex).setLife(true);
@@ -45,106 +32,16 @@ void draw() {
         fruitBox.get(i).display();
       }
     }
-    //display the live boxes
     for (int i = 0; i < lifeBox.size(); i++) {
       lifeBox.get(i).display();
     }
-    if (currentCombo != null) {
-      currentCombo.display();
-      if (currentCombo.getDisplay() >= 25) {
-        currentCombo = null;
-      }
-    }
-    if (frameCount % 50 == 0) {
-      comboCounter = 0;
-    }
   }
-  //timer feature utitlized in spawnItem
   if (countdown > 0) {
     countdown--;
-    //System.out.println(countdown);
+    System.out.println(countdown);
   }
-  //System.out.println(frameCount);
-  spawnItem();
-  //ends game when user runs out of lives
-  int numLives = 3;
-  for (Life life : lifeBox) {
-    if (life.filled()) {
-      numLives--;
-    }
-  }
-  if (numLives == 0) {
-    endMenu();
-  }
-  setDifficulty();
-}
-
-void setup() {
-  //initialize screen, score, font
-  size(960, 720);
-  frameRate(60);
-  countdown = 0;
-  backgroundImg = loadImage("menuBackground.png");
-  background(backgroundImg);
-  score = 0;
-  font = createFont("go3v2.ttf", 128);
-  boundary = 60;
-
-  //fruitBox initialize
-  fruitBox = new ArrayList<Fruit>();
-
-  //fruitTypes initialize
-  fruitTypes = new ArrayList<String>();
-  fruitTypes.add("bomb.png");
-  fruitTypes.add("watermelon.png");
-  fruitTypes.add("banana.png");
-  fruitTypes.add("pear.png");
-  fruitTypes.add("pomegranate.png");
-  fruitTypes.add("orange.png");
-  fruitTypes.add("pineapple.png");
-  fruitTypes.add("coconut.png");
-
-  //slicedFruitTypes initialize
-  slicedFruitTypes = new ArrayList<ArrayList<String>>();
-  slicedFruitTypes.add(new ArrayList<String>(List.of("watermelonTop.png", "watermelonBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("bananaTop.png", "bananaBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("pearTop.png", "pearBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("pomegranateTop.png", "pomegranateBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("orangeTop.png", "orangeBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("pineappleTop.png", "pineappleBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("coconutTop.png", "coconutBottom.png")));
-
-
-  //lifeBox initialize
-  lifeBox = new ArrayList<Life>();
-  Life l1 = new Life(710, 50);
-  Life l2 = new Life(810, 50);
-  Life l3 = new Life(910, 50);
-  lifeBox.add(l1);
-  lifeBox.add(l2);
-  lifeBox.add(l3);
-
-  //BUTTONS
-  PImage buttonImg = loadImage("pauseButton.png");
-  pauseButton = new Button(60, 675, buttonImg, color(0, 0, 0), "PAUSE", 1);
-  pauseButton.resize(100);
-
-  buttonImg = loadImage("playButton.png");
-  startButton = new Button(width/2, height/2, buttonImg, color(0, 0, 0), "START", 1);
-  startButton.resize(200);
-
-  buttonImg = loadImage("backButton.png");
-  backButton = new Button(width/2, height/2+200, buttonImg, color(0, 0, 0), "BACK", 1);
-  backButton.resize(100);
-  
-  //opens start menu
-  startMenu();
-}
-
-void spawnItem() {
-  //continuously spawns fruits when game is not paused, with progressive difficulty
   if (countdown == 0 && !paused) {
-    countdown+=boundary;
+    countdown+=30;
     int randomWidth;
     int randomMagnitude;
     int randomDirection;
@@ -164,40 +61,93 @@ void spawnItem() {
     testFruit.setIndex(rand);
     fruitBox.add(testFruit);
   }
+  int numLives = 3;
+  for (Life life: lifeBox) {
+    if (life.filled()) {
+      numLives--;
+    }
+  }
+  if (numLives == 0) {
+    endMenu();
+  }
 }
 
-void setDifficulty() {
-  //every 5 seconds, the spwan speed of fruits slightly increase
-  if (frameCount % 300 == 0) {
-    boundary -= 5;
-  }
-  if (boundary < 20) {
-    boundary = 20;
-  }
+void setup() {
+  size(960, 720);
+  countdown = 0;
+  backgroundImg = loadImage("menuBackground.png");
+  background(backgroundImg);
+  score = 0;
+  font = createFont("go3v2.ttf", 128);
+
+  //fruitBox initialize
+  fruitBox = new ArrayList<Fruit>();
+
+  //fruitTypes initialize
+  fruitTypes = new ArrayList<String>();
+  fruitTypes.add("bomb.png");
+  fruitTypes.add("watermelon.png");
+  fruitTypes.add("banana.png");
+  fruitTypes.add("pear.png");
+  fruitTypes.add("pomegranate.png");
+  fruitTypes.add("orange.png");
+  fruitTypes.add("pineapple.png");
+  fruitTypes.add("coconut.png");
+  
+  //slicedFruitTypes initialize
+  slicedFruitTypes = new ArrayList<ArrayList<String>>();
+  slicedFruitTypes.add(new ArrayList<String>(List.of("watermelonTop.png", "watermelonBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("bananaTop.png", "bananaBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("pearTop.png", "pearBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("pomegranateTop.png", "pomegranateBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("orangeTop.png", "orangeBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("pineappleTop.png", "pineappleBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(List.of("coconutTop.png", "coconutBottom.png")));
+  
+
+  //lifeBox initialize
+  lifeBox = new ArrayList<Life>();
+  Life l1 = new Life(710, 50);
+  Life l2 = new Life(810, 50);
+  Life l3 = new Life(910, 50);
+  lifeBox.add(l1);
+  lifeBox.add(l2);
+  lifeBox.add(l3);
+
+  //BUTTONS
+  PImage buttonImg = loadImage("pauseButton.png");
+  pauseButton = new Button(60, 675, buttonImg, color(0, 0, 0), "PAUSE", 1);
+  pauseButton.resize(100);
+
+  buttonImg = loadImage("playButton.png");
+  startButton = new Button(width/2, height/2, buttonImg, color(0, 0, 0), "START", 1);
+  startButton.resize(200);
+  
+  buttonImg = loadImage("backButton.png");
+  backButton = new Button(width/2, height/2+200, buttonImg, color(0,0,0), "BACK", 1);
+  backButton.resize(100);
+  
+  startMenu();
 }
 
 void startMenu() {
-  //start menu interface
   background(backgroundImg);
   startButton.display();
   paused = true;
 }
 
 void gameMenu() {
-  //game screen
   background(backgroundImg);
   pauseButton.display();
   paused = false;
 }
 
 void pauseMenu() {
-  //goes back to start menu when paused
   gameMenu();
   paused = true;
 }
 
 void endMenu() {
-  //end game screen
   background(backgroundImg);
   paused = true;
   textFont(font);
@@ -205,14 +155,12 @@ void endMenu() {
   text("GAME OVER", 150, 100);
   noFill();
   fill(255, 165, 0);
-  text("Final Score: ", 120, 200);
-  text(""+score, width/2-25, 300);
+  text("Final Score: "+score, 20, 200);
   noFill();
   backButton.display();
 }
 
 void mousePressed() {
-  //performs a specific action depends on which button is pressed
   if (startButton.update(mouseX, mouseY)) {
     if (startButton.getText().equals("START")) {
       System.out.println("start button pressed!");
@@ -233,11 +181,10 @@ void mousePressed() {
       backButton.hide();
       score = 0;
       fruitBox.clear();
-      for (Life life : lifeBox) {
+      for (Life life: lifeBox) {
         life.setLife(false);
       }
       lifeBoxIndex = 0;
-      boundary = 60;
       startMenu();
     }
   }
@@ -267,17 +214,14 @@ void keyPressed() {
 }
 */
 
-
 void mouseDragged() {
   for (int i = 0; i < fruitBox.size(); i++) {
     Fruit curr = fruitBox.get(i);
-    //Slicing detection
-    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()
-      && dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/48
-      ) {
-      if (curr.isBomb()) { 
+    if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()) {
+        //&& dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/12) {
+      if (curr.isBomb()) {
         System.out.println("Oh no!");
-        endMenu();  //ends game when bomb is sliced
+        endMenu();
       } else {
         if (!(curr.sliced())) {
           float xCoor = curr.getX();
@@ -288,7 +232,6 @@ void mouseDragged() {
           String fruitTop = slicedFruitTypes.get(index-1).get(0);
           String fruitBottom = slicedFruitTypes.get(index-1).get(1);
           
-          //slicing fruit produces two new images of sliced fruit: top and bottom
           PImage topSprite = loadImage(fruitTop);
           PImage bottomSprite = loadImage(fruitBottom);
           Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, topSprite);
@@ -298,27 +241,7 @@ void mouseDragged() {
           fruitBox.add(fruit1);
           fruitBox.add(fruit2);
 
-          comboCounter++;
-          if (comboCounter >=10) {
-            currentCombo = new Combo(5);
-            score = score + 10 * comboCounter;
-            scoreIncrease = 10 * comboCounter;
-          } else {
-            if (comboCounter >=5) {
-              currentCombo = new Combo(3);
-              score = score + 3 * comboCounter;
-              scoreIncrease = 3 * comboCounter;
-            } else {
-              if (comboCounter == 3 || comboCounter == 4) {
-                currentCombo = new Combo(2);
-                score = score + 2 * comboCounter;
-                scoreIncrease = 2 * comboCounter;
-              } else {
-                score++;
-                scoreIncrease = 1;
-              }
-            }
-          }
+          score++;
         }
       }
     }
@@ -326,13 +249,8 @@ void mouseDragged() {
 }
 
 void displayScore() {
-  //displays the current score
   textFont(font);
   fill(255, 165, 0);
-  if (scoreIncrease != 0) {
-    text(""+score + " +" + scoreIncrease, 50, 100);
-  } else {
-    text(""+score, 50, 100);
-  }
+  text(""+score, 50, 100);
   noFill();
 }
