@@ -31,6 +31,12 @@ starting implementing slicing with images
 deleted SlicedFruit class and made "sliced" a field  
 improved slicing by making it less sensitive  
 
+### date: 5-31-23
+added progressive difficulty in fruit spawning,  
+simplified draw() by putting code into functions,  
+hopefully fixed slicing finally,  
+started to add more comments to the code
+
 info
 
 
