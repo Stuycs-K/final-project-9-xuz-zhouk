@@ -9,5 +9,6 @@ This project is a recreation of the popular 2010 mobile game "Fruit Ninja" by Ha
 ## Instructions
 Press the PLAY NOW button to start.  
 SLICE as many fruits as you can in order to accumulate points!  
+Try to obtain COMBOES in order to accelerate your score increase!  
 DROPPING over three fruits will end the run!  
 AVOID slicing the bombs!  
