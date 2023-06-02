@@ -37,6 +37,9 @@ simplified draw() by putting code into functions,
 hopefully fixed slicing finally,  
 started to add more comments to the code
 
+### date: 6-1-23
+finished adding comments to improve clarity of code
+
 info
 
 
