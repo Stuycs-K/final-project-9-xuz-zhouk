@@ -6,6 +6,7 @@ public class Combo {
   PFont font;
   int displayCounter;
   
+  //combo constructor
   public Combo (int mult) {
     this.mult = mult;
     font = createFont("go3v2.ttf", 64);
@@ -24,6 +25,7 @@ public class Combo {
     displayCounter = 0;
   }
   
+  //displays the combo count
   void display() {
     textFont(font);
     fill(msgColor);

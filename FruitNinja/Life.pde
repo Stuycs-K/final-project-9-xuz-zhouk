@@ -5,6 +5,7 @@ public class Life {
   PImage filledX;
   PImage emptyX;
   
+  //constructor
   public Life (int x, int y) {
     filledX = loadImage("life.png");
     filledX.resize(100,0);
@@ -15,6 +16,7 @@ public class Life {
     filled = false;
   }
   
+  //displays the lifebox
   void display() {
     if (filled == true) {
       image(filledX,xcoor-filledX.width/2,ycoor-filledX.height/2);

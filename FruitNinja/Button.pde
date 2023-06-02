@@ -8,6 +8,7 @@ public class Button {
   PImage img;
   boolean displayed;
  
+  //button constructor using width,height
   public Button (int xcoord, int ycoord, int bwidth, int bheight, color buttonColor, color messageColor, String txt, int textSize) {
     this.xcoord = xcoord;
     this.ycoord = ycoord;
@@ -20,7 +21,7 @@ public class Button {
     buttonType = "color";
     displayed = false;
   }
- 
+  //button constructor using img
   public Button(int xcoord, int ycoord, PImage img, color messageColor, String txt, int textSize) {
     this.img = img;
     this.xcoord = xcoord;
@@ -34,7 +35,7 @@ public class Button {
     buttonType = "image";
     displayed = false;
   }
- 
+ //displays the button
   void display() {
     if (buttonType.equals("color")) {
       rectMode(CENTER);
@@ -60,6 +61,7 @@ public class Button {
     displayed = false;
   }
  
+ //resizes image
   void resize(int f) {
     if (buttonType.equals("image")) {
       img.resize(f,0);
@@ -68,6 +70,7 @@ public class Button {
     }
   }
  
+ //checks if (mouse)x,(mouse)y are within the button
   boolean update(int x, int y) {
     boolean b2 = x >= xcoord - bwidth/2 && x <= xcoord + bwidth/2;
     boolean b3 = y >= ycoord - bheight/2 && y <= ycoord + bheight/2;

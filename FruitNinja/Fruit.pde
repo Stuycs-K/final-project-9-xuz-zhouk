@@ -11,7 +11,8 @@ public class Fruit {
   boolean isBomb;
   int fruitIndex;
   boolean sliced;
-   
+  
+  //fruit constructor using radius
   public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, float radius) {
     position = new PVector(xCoor, yCoor);
     velocity = new PVector(xSpeed, ySpeed);
@@ -26,6 +27,7 @@ public class Fruit {
     sliced = false;
   }
   
+  //fruit constructor using image
   public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, PImage img) {
     position = new PVector(xCoor, yCoor);
     velocity = new PVector(xSpeed, ySpeed);
@@ -44,7 +46,8 @@ public class Fruit {
     }
     sliced = false;
   }
-
+  
+  //implements movement of the fruits(gravity + horizontal movement)
   void move() {
     bounce();
     //apply acceleration to velocity
@@ -56,9 +59,11 @@ public class Fruit {
     //bounce
     bounce();
   }
-
+  
+  //displays the fruit
   void display() {
     if (type.equals("circle")) {
+      //implements continous rotation in the direction of rotationDirection
       update();
       pushMatrix();
       translate(position.x, position.y);    
@@ -69,6 +74,7 @@ public class Fruit {
       popMatrix();
     }
     if (type.equals("image")) {
+      //implements continous rotation in the direction of rotationDirection
       update();
       pushMatrix();
       translate(position.x, position.y);    
@@ -79,7 +85,7 @@ public class Fruit {
       popMatrix();
     }
   }
-  
+  //temporary method used for testing
   Fruit copyOf() {
     if (type.equals("circle")) {
       return new Fruit(position.x,position.y,velocity.x,velocity.y,rotationSpeed,rotationDirection,radius);
@@ -131,6 +137,7 @@ public class Fruit {
     return rotationDirection;
   }
   
+  //sets index; used when getting from arraylist containing fruit png strings
   void setIndex(int i) {
     fruitIndex = i;
   }

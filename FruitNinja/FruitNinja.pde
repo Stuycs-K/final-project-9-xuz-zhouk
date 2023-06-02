@@ -17,6 +17,7 @@ PFont font;
 int boundary;
 
 void draw() {
+  //the game only runs when its not in a paused state
   if (!paused) {
     gameMenu();
     displayScore();
@@ -27,7 +28,7 @@ void draw() {
       scoreIncrease = 0;
       scoreCounter = 0;
     }
-
+    //move and display all fruits, light up "misses" when fruit is dropped
     for (int i = 0; i < fruitBox.size(); i++) {
       fruitBox.get(i).move();
       //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
@@ -49,6 +50,7 @@ void draw() {
     for (int i = 0; i < lifeBox.size(); i++) {
       lifeBox.get(i).display();
     }
+    //displays current combo, if applicable
     if (currentCombo != null) {
       currentCombo.display();
       if (currentCombo.getDisplay() >= 25) {
@@ -62,9 +64,7 @@ void draw() {
   //timer feature utitlized in spawnItem
   if (countdown > 0) {
     countdown--;
-    //System.out.println(countdown);
   }
-  //System.out.println(frameCount);
   spawnItem();
   //ends game when user runs out of lives
   int numLives = 3;
@@ -80,7 +80,7 @@ void draw() {
 }
 
 void setup() {
-  //initialize screen, score, font
+  //initialize screen, score, font, countdown
   size(960, 720);
   frameRate(60);
   countdown = 0;
@@ -211,6 +211,31 @@ void endMenu() {
   backButton.display();
 }
 
+//temporary implementation of spawnItem for testing
+/*
+void keyPressed() {
+  if (!paused) {
+    int randomWidth;
+    int randomMagnitude;
+    int randomDirection;
+    randomWidth = (int)(Math.random() * (width-0+1) + 0);
+    randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
+    randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+    if (randomDirection == 0) {
+      randomDirection = -1;
+    }
+    int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
+    String whichFruit = fruitTypes.get(rand);
+    PImage fruitSprite = loadImage(whichFruit);
+    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
+    if (rand == 0) {
+      testFruit.makeBomb();
+    }
+    fruitBox.add(testFruit);
+  }
+}
+*/
+
 void mousePressed() {
   //performs a specific action depends on which button is pressed
   if (startButton.update(mouseX, mouseY)) {
@@ -243,31 +268,6 @@ void mousePressed() {
   }
 }
 
-/*
-void keyPressed() {
-  if (!paused) {
-    int randomWidth;
-    int randomMagnitude;
-    int randomDirection;
-    randomWidth = (int)(Math.random() * (width-0+1) + 0);
-    randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
-    randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
-    if (randomDirection == 0) {
-      randomDirection = -1;
-    }
-    int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
-    String whichFruit = fruitTypes.get(rand);
-    PImage fruitSprite = loadImage(whichFruit);
-    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
-    if (rand == 0) {
-      testFruit.makeBomb();
-    }
-    fruitBox.add(testFruit);
-  }
-}
-*/
-
-
 void mouseDragged() {
   for (int i = 0; i < fruitBox.size(); i++) {
     Fruit curr = fruitBox.get(i);
@@ -297,7 +297,8 @@ void mouseDragged() {
           fruit2.setSliced();
           fruitBox.add(fruit1);
           fruitBox.add(fruit2);
-
+          
+          //increases combo 
           comboCounter++;
           if (comboCounter >=10) {
             currentCombo = new Combo(5);
