@@ -277,6 +277,7 @@ void mouseDragged() {
       ) {
       if (curr.isBomb()) { 
         System.out.println("Oh no!");
+        background(backgroundImg);
         endMenu();  //ends game when bomb is sliced
       } else {
         if (!(curr.sliced())) {
@@ -322,6 +323,14 @@ void mouseDragged() {
           }
         }
       }
+    }
+    //slicing cursor effect
+    if (!paused) {
+      fill(255);
+      stroke(255);
+      circle(mouseX,mouseY,10);
+      noFill();
+      noStroke();
     }
   }
 }
