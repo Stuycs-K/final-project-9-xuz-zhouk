@@ -252,7 +252,7 @@ void keyPressed() {
 
 //stain testing
 void keyPressed() {
-  stainBox.add(new Stain(width/2,height/2));
+  stainBox.add(new Stain(width/2,height/2,1));
 }
 
 void mousePressed() {
@@ -316,7 +316,7 @@ void mouseDragged() {
           fruit2.setSliced();
           fruitBox.add(fruit1);
           fruitBox.add(fruit2);
-          stainBox.add(new Stain(xCoor,yCoor));
+          stainBox.add(new Stain(xCoor,yCoor,index));
           
           //increases combo 
           comboCounter++;
