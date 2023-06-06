@@ -8,7 +8,7 @@ public class Stain {
   public Stain (float xCoor, float yCoor, int fruitIndex) {
     this.xCoor = xCoor;
     this.yCoor = yCoor;
-    img = loadImage("stain.png");
+    img = loadImage("stain2.png");
     lifespan = 100;
     rotationAngle = (int)Math.floor(Math.random() *(361));
     this.fruitIndex = fruitIndex;
@@ -44,18 +44,23 @@ public class Stain {
   }
   
   private void colorIn() {
+    //red
     if (fruitIndex == 1 || fruitIndex == 4) {
-      //red is the default
+      tint(250, 39, 2);
     }
+    //yellow
     if (fruitIndex == 2 || fruitIndex == 6) {
-      tint(255, 255, 102);
+      tint(250, 229, 2);
     }
+    //green
     if (fruitIndex == 3) {
-      tint(204, 255, 102);
+      tint(216, 230, 179);
     }
+    //orange
     if (fruitIndex == 5) {
-      tint(255, 153, 51);
+      tint(250, 118, 2);
     }
+    //white
     if (fruitIndex == 7) {
       tint(255,255,255);
     }

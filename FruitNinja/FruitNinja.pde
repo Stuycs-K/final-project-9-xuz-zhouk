@@ -222,6 +222,7 @@ void endMenu() {
   text("Final Score: ", 120, 200);
   text(""+score, width/2-25, 300);
   noFill();
+  stainBox = new ArrayList<Stain>();
   backButton.display();
 }
 
@@ -251,9 +252,11 @@ void keyPressed() {
 */
 
 //stain testing
+/*
 void keyPressed() {
   stainBox.add(new Stain(width/2,height/2,1));
 }
+*/
 
 void mousePressed() {
   //performs a specific action depends on which button is pressed
