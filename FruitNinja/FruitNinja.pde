@@ -15,6 +15,7 @@ int scoreIncrease = 0;
 int scoreCounter = 0;
 PFont font;
 int boundary;
+ArrayList<Stain> stainBox;
 
 void draw() {
   //the game only runs when its not in a paused state
@@ -27,6 +28,16 @@ void draw() {
     if (scoreCounter >= 20) {
       scoreIncrease = 0;
       scoreCounter = 0;
+    }
+    //display the stain box
+    for (int i = 0; i < stainBox.size(); i++) {
+      if (stainBox.get(i).getDuration() <= 0) {
+        stainBox.remove(i);
+        i--;
+      }
+      else {
+        stainBox.get(i).display();
+      }
     }
     //move and display all fruits, light up "misses" when fruit is dropped
     for (int i = 0; i < fruitBox.size(); i++) {
@@ -123,6 +134,9 @@ void setup() {
   lifeBox.add(l1);
   lifeBox.add(l2);
   lifeBox.add(l3);
+  
+  //stainBox initialize
+  stainBox = new ArrayList<Stain>();
 
   //BUTTONS
   PImage buttonImg = loadImage("pauseButton.png");
@@ -208,6 +222,7 @@ void endMenu() {
   text("Final Score: ", 120, 200);
   text(""+score, width/2-25, 300);
   noFill();
+  stainBox = new ArrayList<Stain>();
   backButton.display();
 }
 
@@ -233,6 +248,13 @@ void keyPressed() {
     }
     fruitBox.add(testFruit);
   }
+}
+*/
+
+//stain testing
+/*
+void keyPressed() {
+  stainBox.add(new Stain(width/2,height/2,1));
 }
 */
 
@@ -298,6 +320,7 @@ void mouseDragged() {
           fruit2.setSliced();
           fruitBox.add(fruit1);
           fruitBox.add(fruit2);
+          stainBox.add(new Stain(xCoor,yCoor,index));
           
           //increases combo 
           comboCounter++;
