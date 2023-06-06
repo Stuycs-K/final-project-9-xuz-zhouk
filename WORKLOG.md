@@ -40,6 +40,9 @@ started to add more comments to the code
 ### date: 6-1-23
 finished adding comments to improve clarity of code
 
+### date: 6-5-23
+finished adding cursor slicing effect when dragging mouse
+
 info
 
 
@@ -71,7 +74,7 @@ cleaned up the sprites by resizing (gimp field day xd)
 ### date: 5-31-2023
 implemented combos, but was forced to revert to old implementation of slicing because of broken functionality
 
-## date: 06-5-2023
+### date: 06-5-2023
 implemented most of stains (cropped the sprite, wrote the class, figured out fading).  
 tomorrow in class need to remember to disable the manual button and change the color.
 
