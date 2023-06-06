@@ -78,4 +78,7 @@ implemented combos, but was forced to revert to old implementation of slicing be
 implemented most of stains (cropped the sprite, wrote the class, figured out fading).  
 tomorrow in class need to remember to disable the manual button and change the color.
 
+### date: 06-6-2023
+finished stains by figuring out how to work around the coloring issue (combination of gimp and tint()).
+
 info
