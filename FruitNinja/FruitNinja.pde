@@ -16,6 +16,8 @@ int scoreCounter = 0;
 PFont font;
 int boundary;
 ArrayList<Stain> stainBox;
+int highScore;
+int retries;
 
 void draw() {
   //the game only runs when its not in a paused state
@@ -71,6 +73,12 @@ void draw() {
     if (frameCount % 50 == 0) {
       comboCounter = 0;
     }
+    if (retries > 0) {
+      textSize(32);
+      fill(255, 165, 0);
+      text("Retries: " + retries, width-200, height-100);
+      noFill();
+    }
   }
   //timer feature utitlized in spawnItem
   if (countdown > 0) {
@@ -100,6 +108,8 @@ void setup() {
   score = 0;
   font = createFont("go3v2.ttf", 128);
   boundary = 60;
+  highScore = 0;
+  retries = 0;
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
@@ -215,6 +225,7 @@ void endMenu() {
   background(backgroundImg);
   paused = true;
   textFont(font);
+  textSize(128);
   fill(255, 0, 0);
   text("GAME OVER", 150, 100);
   noFill();
@@ -223,6 +234,9 @@ void endMenu() {
   text(""+score, width/2-25, 300);
   noFill();
   stainBox = new ArrayList<Stain>();
+  if (score > highScore) {
+    highScore = score;
+  }
   backButton.display();
 }
 
@@ -285,6 +299,7 @@ void mousePressed() {
       }
       lifeBoxIndex = 0;
       boundary = 60;
+      retries++;
       startMenu();
     }
   }
@@ -349,8 +364,8 @@ void mouseDragged() {
     }
     //slicing cursor effect
     if (!paused) {
-      stroke(211,211,211);
-      strokeWeight(13);
+      stroke(255);
+      strokeWeight(10);
       line(pmouseX, pmouseY, mouseX, mouseY);
       noStroke();
     }
@@ -360,6 +375,7 @@ void mouseDragged() {
 void displayScore() {
   //displays the current score
   textFont(font);
+  textSize(128);
   fill(255, 165, 0);
   if (scoreIncrease != 0) {
     text(""+score + " +" + scoreIncrease, 50, 100);
@@ -367,4 +383,10 @@ void displayScore() {
     text(""+score, 50, 100);
   }
   noFill();
+  if (retries > 0) {
+    fill(0, 255, 255);
+    textSize(64);
+    text("High Score: " + highScore, 50, 200);
+    noFill();
+  }
 }
