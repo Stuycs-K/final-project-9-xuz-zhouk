@@ -43,6 +43,10 @@ finished adding comments to improve clarity of code
 ### date: 6-5-23
 finished adding cursor slicing effect when dragging mouse
 
+### date: 6-6-23
+fixed mouse cursor trail,  
+implemented high score and retry count feature(the game displays them)
+
 info
 
 
