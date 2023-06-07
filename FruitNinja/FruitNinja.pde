@@ -384,9 +384,9 @@ void displayScore() {
   }
   noFill();
   if (retries > 0) {
-    fill(0, 255, 255);
+    fill(255, 165, 0);
     textSize(64);
-    text("High Score: " + highScore, 50, 200);
+    text("BEST: " + highScore, 50, 175);
     noFill();
   }
 }
