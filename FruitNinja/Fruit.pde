@@ -47,6 +47,26 @@ public class Fruit {
     sliced = false;
   }
   
+  //fruit constructor using image
+  public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, PImage img, float acceleration) {
+    position = new PVector(xCoor, yCoor);
+    velocity = new PVector(xSpeed, ySpeed);
+    this.acceleration = acceleration;
+    type = "image";
+    rotationAngle = 0;
+    this.rotationDirection = rotationDirection;
+    this.rotationSpeed = rotationSpeed;
+    this.img = img;
+    isBomb = false;
+    if (img.width >= img.height) {
+      radius = img.width;
+    }
+    else {
+      radius = img.height;
+    }
+    sliced = false;
+  }
+  
   //implements movement of the fruits(gravity + horizontal movement)
   void move() {
     bounce();

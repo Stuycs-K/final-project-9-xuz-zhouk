@@ -18,84 +18,164 @@ int boundary;
 ArrayList<Stain> stainBox;
 int highScore;
 int retries;
+int mode;
+boolean starting;
 
 void draw() {
   //the game only runs when its not in a paused state
-  if (!paused) {
-    gameMenu();
-    displayScore();
-    if (scoreIncrease > 0) {
-      scoreCounter++;
-    }
-    if (scoreCounter >= 20) {
-      scoreIncrease = 0;
-      scoreCounter = 0;
-    }
-    //display the stain box
-    for (int i = 0; i < stainBox.size(); i++) {
-      if (stainBox.get(i).getDuration() <= 0) {
-        stainBox.remove(i);
-        i--;
+  if (mode == 0) {
+    if (!paused) {
+      gameMenu();
+      displayScore();
+      if (scoreIncrease > 0) {
+        scoreCounter++;
       }
-      else {
-        stainBox.get(i).display();
+      if (scoreCounter >= 20) {
+        scoreIncrease = 0;
+        scoreCounter = 0;
       }
-    }
-    //move and display all fruits, light up "misses" when fruit is dropped
-    for (int i = 0; i < fruitBox.size(); i++) {
-      fruitBox.get(i).move();
-      //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
-      if (fruitBox.get(i).getY() >= height + 100) {
-        Fruit f = fruitBox.remove(i);
-        
-        //fills in a life box when the fruit is not a bomb and its not sliced
-        if (!(f.isBomb() || f.sliced())) {
-          if (lifeBoxIndex < lifeBox.size()) {
-            lifeBox.get(lifeBoxIndex).setLife(true);
-            lifeBoxIndex++;
-          }
+      //display the stain box
+      for (int i = 0; i < stainBox.size(); i++) {
+        if (stainBox.get(i).getDuration() <= 0) {
+          stainBox.remove(i);
+          i--;
         }
-      } else {
-        fruitBox.get(i).display();
+        else {
+          stainBox.get(i).display();
+        }
+      }
+      //move and display all fruits, light up "misses" when fruit is dropped
+      for (int i = 0; i < fruitBox.size(); i++) {
+        fruitBox.get(i).move();
+        //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
+        if (fruitBox.get(i).getY() >= height + 100) {
+          Fruit f = fruitBox.remove(i);
+          
+          //fills in a life box when the fruit is not a bomb and its not sliced
+          if (!(f.isBomb() || f.sliced())) {
+            if (lifeBoxIndex < lifeBox.size()) {
+              lifeBox.get(lifeBoxIndex).setLife(true);
+              lifeBoxIndex++;
+            }
+          }
+        } else {
+          fruitBox.get(i).display();
+        }
+      }
+      //display the live boxes
+      for (int i = 0; i < lifeBox.size(); i++) {
+        lifeBox.get(i).display();
+      }
+      //displays current combo, if applicable
+      if (currentCombo != null) {
+        currentCombo.display();
+        if (currentCombo.getDisplay() >= 25) {
+          currentCombo = null;
+        }
+      }
+      if (frameCount % 50 == 0) {
+        comboCounter = 0;
+      }
+      if (retries > 0) {
+        textSize(32);
+        fill(255, 165, 0);
+        text("Retries: " + retries, width-200, height-100);
+        noFill();
       }
     }
-    //display the live boxes
-    for (int i = 0; i < lifeBox.size(); i++) {
-      lifeBox.get(i).display();
+    //timer feature utitlized in spawnItem
+    if (countdown > 0) {
+      countdown--;
     }
-    //displays current combo, if applicable
-    if (currentCombo != null) {
-      currentCombo.display();
-      if (currentCombo.getDisplay() >= 25) {
-        currentCombo = null;
+    spawnItem();
+    //ends game when user runs out of lives
+    int numLives = 3;
+    for (Life life : lifeBox) {
+      if (life.filled()) {
+        numLives--;
       }
     }
-    if (frameCount % 50 == 0) {
-      comboCounter = 0;
+    if (numLives == 0) {
+      endMenu();
     }
-    if (retries > 0) {
-      textSize(32);
-      fill(255, 165, 0);
-      text("Retries: " + retries, width-200, height-100);
-      noFill();
+    setDifficulty();
+  } else {
+    if (!paused) {
+      gameMenu();
+      displayScore();
+      if (scoreIncrease > 0) {
+        scoreCounter++;
+      }
+      if (scoreCounter >= 20) {
+        scoreIncrease = 0;
+        scoreCounter = 0;
+      }
+      //display the stain box
+      for (int i = 0; i < stainBox.size(); i++) {
+        if (stainBox.get(i).getDuration() <= 0) {
+          stainBox.remove(i);
+          i--;
+        }
+        else {
+          stainBox.get(i).display();
+        }
+      }
+      //move and display all fruits, light up "misses" when fruit is dropped
+      for (int i = 0; i < fruitBox.size(); i++) {
+        fruitBox.get(i).move();
+        //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
+        if (fruitBox.get(i).getY() >= height + 100) {
+          Fruit f = fruitBox.remove(i);
+          
+          //fills in a life box when the fruit is not a bomb and its not sliced
+          if (!(f.isBomb() || f.sliced())) {
+            if (lifeBoxIndex < lifeBox.size()) {
+              lifeBox.get(lifeBoxIndex).setLife(true);
+              lifeBoxIndex++;
+            }
+          }
+        } else {
+          fruitBox.get(i).display();
+        }
+      }
+      //display the live boxes
+      for (int i = 0; i < lifeBox.size(); i++) {
+        lifeBox.get(i).display();
+      }
+      //displays current combo, if applicable
+      if (currentCombo != null) {
+        currentCombo.display();
+        if (currentCombo.getDisplay() >= 25) {
+          currentCombo = null;
+        }
+      }
+      if (frameCount % 50 == 0) {
+        comboCounter = 0;
+      }
+      if (retries > 0) {
+        textSize(32);
+        fill(255, 165, 0);
+        text("Retries: " + retries, width-200, height-100);
+        noFill();
+      }
     }
-  }
-  //timer feature utitlized in spawnItem
-  if (countdown > 0) {
-    countdown--;
-  }
-  spawnItem();
-  //ends game when user runs out of lives
-  int numLives = 3;
-  for (Life life : lifeBox) {
-    if (life.filled()) {
-      numLives--;
+    //timer feature utitlized in spawnItem
+    if (countdown > 0) {
+      countdown--;
     }
+    spawnItem();
+    //ends game when user runs out of lives
+    int numLives = 3;
+    for (Life life : lifeBox) {
+      if (life.filled()) {
+        numLives--;
+      }
+    }
+    if (numLives == 0) {
+      endMenu();
+    }
+    setDifficulty();
   }
-  if (numLives == 0) {
-    endMenu();
-  }
-  setDifficulty();
 }
 
 void setup() {
@@ -110,6 +190,7 @@ void setup() {
   boundary = 60;
   highScore = 0;
   retries = 0;
+  starting = true;
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
@@ -203,6 +284,11 @@ void setDifficulty() {
 void startMenu() {
   //start menu interface
   background(backgroundImg);
+  int randomWidth = (int)(Math.random() * (width-0+1) + 0);
+  int randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+  PImage fruitSprite = loadImage("watermelon.png");
+  Fruit testFruit = new Fruit(width/2-50, height/2, 0, 0, 0.05, randomDirection, fruitSprite);
+  fruitBox.add(testFruit);
   startButton.display();
   paused = true;
 }
@@ -363,7 +449,7 @@ void mouseDragged() {
       }
     }
     //slicing cursor effect
-    if (!paused) {
+    if (!paused || starting) {
       stroke(255);
       strokeWeight(10);
       line(pmouseX, pmouseY, mouseX, mouseY);
