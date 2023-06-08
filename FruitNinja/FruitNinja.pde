@@ -19,7 +19,15 @@ ArrayList<Stain> stainBox;
 int highScore;
 int retries;
 int mode;
-boolean starting;
+int timer;
+
+/*
+  background(backgroundImg);
+ int randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+ PImage fruitSprite = loadImage("watermelon.png");
+ Fruit testFruit = new Fruit(width/2-50, height/2, 0.05, randomDirection, fruitSprite);
+ testFruit.display();
+ */
 
 void draw() {
   //the game only runs when its not in a paused state
@@ -39,8 +47,7 @@ void draw() {
         if (stainBox.get(i).getDuration() <= 0) {
           stainBox.remove(i);
           i--;
-        }
-        else {
+        } else {
           stainBox.get(i).display();
         }
       }
@@ -50,7 +57,7 @@ void draw() {
         //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
         if (fruitBox.get(i).getY() >= height + 100) {
           Fruit f = fruitBox.remove(i);
-          
+
           //fills in a life box when the fruit is not a bomb and its not sliced
           if (!(f.isBomb() || f.sliced())) {
             if (lifeBoxIndex < lifeBox.size()) {
@@ -82,24 +89,24 @@ void draw() {
         text("Retries: " + retries, width-200, height-100);
         noFill();
       }
-    }
-    //timer feature utitlized in spawnItem
-    if (countdown > 0) {
-      countdown--;
-    }
-    spawnItem();
-    //ends game when user runs out of lives
-    int numLives = 3;
-    for (Life life : lifeBox) {
-      if (life.filled()) {
-        numLives--;
+      //timer feature utitlized in spawnItem
+      if (countdown > 0) {
+        countdown--;
       }
+      spawnItem();
+      //ends game when user runs out of lives
+      int numLives = 3;
+      for (Life life : lifeBox) {
+        if (life.filled()) {
+          numLives--;
+        }
+      }
+      if (numLives == 0) {
+        endMenu();
+      }
+      setDifficulty();
     }
-    if (numLives == 0) {
-      endMenu();
-    }
-    setDifficulty();
-  } else {
+  } else if (mode == 1) {
     if (!paused) {
       gameMenu();
       displayScore();
@@ -115,8 +122,7 @@ void draw() {
         if (stainBox.get(i).getDuration() <= 0) {
           stainBox.remove(i);
           i--;
-        }
-        else {
+        } else {
           stainBox.get(i).display();
         }
       }
@@ -125,22 +131,10 @@ void draw() {
         fruitBox.get(i).move();
         //THIS CODE AUTO DELETES FRUIT BELOW A CERTAIN THRESHOLD
         if (fruitBox.get(i).getY() >= height + 100) {
-          Fruit f = fruitBox.remove(i);
-          
-          //fills in a life box when the fruit is not a bomb and its not sliced
-          if (!(f.isBomb() || f.sliced())) {
-            if (lifeBoxIndex < lifeBox.size()) {
-              lifeBox.get(lifeBoxIndex).setLife(true);
-              lifeBoxIndex++;
-            }
-          }
+          fruitBox.remove(i);
         } else {
           fruitBox.get(i).display();
         }
-      }
-      //display the live boxes
-      for (int i = 0; i < lifeBox.size(); i++) {
-        lifeBox.get(i).display();
       }
       //displays current combo, if applicable
       if (currentCombo != null) {
@@ -158,23 +152,50 @@ void draw() {
         text("Retries: " + retries, width-200, height-100);
         noFill();
       }
-    }
-    //timer feature utitlized in spawnItem
-    if (countdown > 0) {
-      countdown--;
-    }
-    spawnItem();
-    //ends game when user runs out of lives
-    int numLives = 3;
-    for (Life life : lifeBox) {
-      if (life.filled()) {
-        numLives--;
+      //timer feature utitlized in spawnItem
+      if (countdown > 0) {
+        countdown--;
       }
+      spawnItem();
+      //ends game when user runs out of lives
+      /*
+    int numLives = 3;
+       for (Life life : lifeBox) {
+       if (life.filled()) {
+       numLives--;
+       }
+       }
+       if (numLives == 0) {
+       endMenu();
+       }
+       */
+      if (timer == 0) {
+        endMenu();
+      }
+      if (!paused) {
+        textSize(128);
+        fill(255);
+        text(""+timer, width/2, 100);
+        noFill();
+        if (frameCount%60 == 0) {
+          timer--;
+        }
+      }
+      setDifficulty();
     }
-    if (numLives == 0) {
-      endMenu();
+  } else {
+    background(backgroundImg);
+    fill(255, 165, 0);
+    textFont(font);
+    textSize(32);
+    text("ARCADE", width/2-200, height/2-100);
+    text("ZEN", width/2+115, height/2-100);
+    textSize(48);
+    text("Choose your desired mode below:", 100, height/2-200);
+    noFill();
+    for (Fruit fruit : fruitBox) {
+      fruit.display();
     }
-    setDifficulty();
   }
 }
 
@@ -190,10 +211,20 @@ void setup() {
   boundary = 60;
   highScore = 0;
   retries = 0;
-  starting = true;
+  paused = true;
+  mode = 2;
+  timer = 60;
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
+
+  int randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+  PImage fruitSprite = loadImage("watermelon.png");
+  PImage fruitSprite2 = loadImage("pomegranate.png");
+  Fruit testFruit = new Fruit(width/2-150, height/2, 0.05, randomDirection, fruitSprite, 0);
+  Fruit testFruit2 = new Fruit(width/2+150, height/2, 0.05, randomDirection, fruitSprite2, 1);
+  fruitBox.add(testFruit);
+  fruitBox.add(testFruit2);
 
   //fruitTypes initialize
   fruitTypes = new ArrayList<String>();
@@ -225,7 +256,7 @@ void setup() {
   lifeBox.add(l1);
   lifeBox.add(l2);
   lifeBox.add(l3);
-  
+
   //stainBox initialize
   stainBox = new ArrayList<Stain>();
 
@@ -241,14 +272,11 @@ void setup() {
   buttonImg = loadImage("backButton.png");
   backButton = new Button(width/2, height/2+200, buttonImg, color(0, 0, 0), "BACK", 1);
   backButton.resize(100);
-  
-  //opens start menu
-  startMenu();
 }
 
 void spawnItem() {
   //continuously spawns fruits when game is not paused, with progressive difficulty
-  if (countdown == 0 && !paused) {
+  if (mode == 0 && countdown == 0 && !paused) {
     countdown+=boundary;
     int randomWidth;
     int randomMagnitude;
@@ -268,6 +296,25 @@ void spawnItem() {
     }
     testFruit.setIndex(rand);
     fruitBox.add(testFruit);
+  } else if (mode == 1 && countdown == 0 && !paused) {
+    if (mode == 1 && countdown == 0 && !paused) {
+      countdown+=boundary;
+      int randomWidth;
+      int randomMagnitude;
+      int randomDirection;
+      randomWidth = (int)(Math.random() * (width-0+1) + 0);
+      randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
+      randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+      if (randomDirection == 0) {
+        randomDirection = -1;
+      }
+      int rand = (int) (Math.random() * (fruitTypes.size() - 1)) + 1;
+      String whichFruit = fruitTypes.get(rand);
+      PImage fruitSprite = loadImage(whichFruit);
+      Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
+      testFruit.setIndex(rand);
+      fruitBox.add(testFruit);
+    }
   }
 }
 
@@ -284,11 +331,6 @@ void setDifficulty() {
 void startMenu() {
   //start menu interface
   background(backgroundImg);
-  int randomWidth = (int)(Math.random() * (width-0+1) + 0);
-  int randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
-  PImage fruitSprite = loadImage("watermelon.png");
-  Fruit testFruit = new Fruit(width/2-50, height/2, 0, 0, 0.05, randomDirection, fruitSprite);
-  fruitBox.add(testFruit);
   startButton.display();
   paused = true;
 }
@@ -329,34 +371,34 @@ void endMenu() {
 //temporary implementation of spawnItem for testing
 /*
 void keyPressed() {
-  if (!paused) {
-    int randomWidth;
-    int randomMagnitude;
-    int randomDirection;
-    randomWidth = (int)(Math.random() * (width-0+1) + 0);
-    randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
-    randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
-    if (randomDirection == 0) {
-      randomDirection = -1;
-    }
-    int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
-    String whichFruit = fruitTypes.get(rand);
-    PImage fruitSprite = loadImage(whichFruit);
-    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
-    if (rand == 0) {
-      testFruit.makeBomb();
-    }
-    fruitBox.add(testFruit);
-  }
-}
-*/
+ if (!paused) {
+ int randomWidth;
+ int randomMagnitude;
+ int randomDirection;
+ randomWidth = (int)(Math.random() * (width-0+1) + 0);
+ randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
+ randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+ if (randomDirection == 0) {
+ randomDirection = -1;
+ }
+ int rand = (int)Math.floor(Math.random() * (fruitTypes.size() - 1 - 0 + 1) + 0);
+ String whichFruit = fruitTypes.get(rand);
+ PImage fruitSprite = loadImage(whichFruit);
+ Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
+ if (rand == 0) {
+ testFruit.makeBomb();
+ }
+ fruitBox.add(testFruit);
+ }
+ }
+ */
 
 //stain testing
 /*
 void keyPressed() {
-  stainBox.add(new Stain(width/2,height/2,1));
-}
-*/
+ stainBox.add(new Stain(width/2,height/2,1));
+ }
+ */
 
 void mousePressed() {
   //performs a specific action depends on which button is pressed
@@ -386,6 +428,7 @@ void mousePressed() {
       lifeBoxIndex = 0;
       boundary = 60;
       retries++;
+      timer = 60;
       startMenu();
     }
   }
@@ -398,50 +441,59 @@ void mouseDragged() {
     if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()
       && dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/48
       ) {
-      if (curr.isBomb()) { 
+      if (curr.isBomb()) {
         System.out.println("Oh no!");
         background(backgroundImg);
         endMenu();  //ends game when bomb is sliced
       } else {
-        if (!(curr.sliced())) {
-          float xCoor = curr.getX();
-          float yCoor = curr.getY();
-          int direction = curr.getDirection();
-          int index = curr.getIndex();
-          fruitBox.remove(curr);
-          String fruitTop = slicedFruitTypes.get(index-1).get(0);
-          String fruitBottom = slicedFruitTypes.get(index-1).get(1);
-          
-          //slicing fruit produces two new images of sliced fruit: top and bottom
-          PImage topSprite = loadImage(fruitTop);
-          PImage bottomSprite = loadImage(fruitBottom);
-          Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, topSprite);
-          Fruit fruit2 = new Fruit(xCoor, yCoor, -5, 0, 0.05, -direction, bottomSprite);
-          fruit1.setSliced();
-          fruit2.setSliced();
-          fruitBox.add(fruit1);
-          fruitBox.add(fruit2);
-          stainBox.add(new Stain(xCoor,yCoor,index));
-          
-          //increases combo 
-          comboCounter++;
-          if (comboCounter >=10) {
-            currentCombo = new Combo(5);
-            score = score + 10 * comboCounter;
-            scoreIncrease = 10 * comboCounter;
-          } else {
-            if (comboCounter >=5) {
-              currentCombo = new Combo(3);
-              score = score + 3 * comboCounter;
-              scoreIncrease = 3 * comboCounter;
+        if (mode == 2) {
+          mode = curr.getMode();
+          curr.setSliced();
+          fruitBox.clear();
+          System.out.println(mode);
+          paused = false;
+          break;
+        } else {
+          if (!(curr.sliced())) {
+            float xCoor = curr.getX();
+            float yCoor = curr.getY();
+            int direction = curr.getDirection();
+            int index = curr.getIndex();
+            fruitBox.remove(curr);
+            String fruitTop = slicedFruitTypes.get(index-1).get(0);
+            String fruitBottom = slicedFruitTypes.get(index-1).get(1);
+
+            //slicing fruit produces two new images of sliced fruit: top and bottom
+            PImage topSprite = loadImage(fruitTop);
+            PImage bottomSprite = loadImage(fruitBottom);
+            Fruit fruit1 = new Fruit(xCoor, yCoor, 5, 0, 0.05, direction, topSprite);
+            Fruit fruit2 = new Fruit(xCoor, yCoor, -5, 0, 0.05, -direction, bottomSprite);
+            fruit1.setSliced();
+            fruit2.setSliced();
+            fruitBox.add(fruit1);
+            fruitBox.add(fruit2);
+            stainBox.add(new Stain(xCoor, yCoor, index));
+
+            //increases combo
+            comboCounter++;
+            if (comboCounter >=10) {
+              currentCombo = new Combo(5);
+              score = score + 10 * comboCounter;
+              scoreIncrease = 10 * comboCounter;
             } else {
-              if (comboCounter == 3 || comboCounter == 4) {
-                currentCombo = new Combo(2);
-                score = score + 2 * comboCounter;
-                scoreIncrease = 2 * comboCounter;
+              if (comboCounter >=5) {
+                currentCombo = new Combo(3);
+                score = score + 3 * comboCounter;
+                scoreIncrease = 3 * comboCounter;
               } else {
-                score++;
-                scoreIncrease = 1;
+                if (comboCounter == 3 || comboCounter == 4) {
+                  currentCombo = new Combo(2);
+                  score = score + 2 * comboCounter;
+                  scoreIncrease = 2 * comboCounter;
+                } else {
+                  score++;
+                  scoreIncrease = 1;
+                }
               }
             }
           }
@@ -449,7 +501,7 @@ void mouseDragged() {
       }
     }
     //slicing cursor effect
-    if (!paused || starting) {
+    if (!paused || mode == 2) {
       stroke(255);
       strokeWeight(10);
       line(pmouseX, pmouseY, mouseX, mouseY);
