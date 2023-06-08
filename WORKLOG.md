@@ -85,4 +85,7 @@ tomorrow in class need to remember to disable the manual button and change the c
 ### date: 06-6-2023
 finished stains by figuring out how to work around the coloring issue (combination of gimp and tint()).
 
+### date: 06-08-2023
+used gimp to crop both powerup sprites and powerup halves, then wrote the class and added in functionality for each individual power up. next step is to incorporate them with the spawn method.
+
 info
