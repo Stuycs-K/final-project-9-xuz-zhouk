@@ -5,6 +5,8 @@ public class Combo {
   color msgColor;
   PFont font;
   int displayCounter;
+  String comboType;
+  int textSize;
   
   //combo constructor
   public Combo (int mult) {
@@ -23,11 +25,26 @@ public class Combo {
       msgColor = color(207,181,59);
     }
     displayCounter = 0;
+    comboType = "combo";
+    textSize = 64;
+  }
+  
+  public Combo (int xCoor, int yCoor, String msg, color msgColor) {
+    mult = 0;
+    font = createFont("go3v2.ttf", 64);
+    this.xCoor = xCoor;
+    this.yCoor = yCoor;
+    this.msg = msg;
+    this.msgColor = msgColor;
+    displayCounter = 0;
+    comboType = "message";
+    textSize = 100;
   }
   
   //displays the combo count
   void display() {
     textFont(font);
+    textSize(textSize);
     fill(msgColor);
     text(msg, xCoor, yCoor);
     noFill();

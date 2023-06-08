@@ -8,6 +8,7 @@ ArrayList<ArrayList<String>> slicedFruitTypes;
 int countdown;
 ArrayList<Life> lifeBox;
 Combo currentCombo = null;
+Combo powerUp = null;
 int comboCounter = 0;
 int lifeBoxIndex = 0;
 int score;
@@ -20,6 +21,8 @@ int highScore;
 int retries;
 int mode;
 int timer;
+final int ARCADE = 0;
+final int ZEN = 1;
 
 /*
   background(backgroundImg);
@@ -31,7 +34,7 @@ int timer;
 
 void draw() {
   //the game only runs when its not in a paused state
-  if (mode == 0) {
+  if (mode == ARCADE) {
     if (!paused) {
       gameMenu();
       displayScore();
@@ -106,7 +109,7 @@ void draw() {
       }
       setDifficulty();
     }
-  } else if (mode == 1) {
+  } else if (mode == ZEN) {
     if (!paused) {
       gameMenu();
       displayScore();
@@ -143,6 +146,14 @@ void draw() {
           currentCombo = null;
         }
       }
+      //displays power up message
+      if (powerUp != null) {
+        powerUp.display();
+        if (powerUp.getDisplay() >= 100) {
+          powerUp = null;
+        }
+      }
+
       if (frameCount % 50 == 0) {
         comboCounter = 0;
       }
@@ -218,11 +229,10 @@ void setup() {
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
 
-  int randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
   PImage fruitSprite = loadImage("watermelon.png");
   PImage fruitSprite2 = loadImage("pomegranate.png");
-  Fruit testFruit = new Fruit(width/2-150, height/2, 0.05, randomDirection, fruitSprite, 0);
-  Fruit testFruit2 = new Fruit(width/2+150, height/2, 0.05, randomDirection, fruitSprite2, 1);
+  Fruit testFruit = new Fruit(width/2-150, height/2, 0.05, 1, fruitSprite, 0);
+  Fruit testFruit2 = new Fruit(width/2+150, height/2, 0.05, 1, fruitSprite2, 1);
   fruitBox.add(testFruit);
   fruitBox.add(testFruit2);
 
@@ -362,6 +372,7 @@ void endMenu() {
   text(""+score, width/2-25, 300);
   noFill();
   stainBox = new ArrayList<Stain>();
+  currentCombo = null;
   if (score > highScore) {
     highScore = score;
   }
@@ -399,6 +410,22 @@ void keyPressed() {
  stainBox.add(new Stain(width/2,height/2,1));
  }
  */
+
+//powerUp testing
+void keyPressed() {
+  if (mode == ZEN) {
+    //frenzy powerup
+    /*
+     PImage frenzyPic = loadImage("frenzy.png");
+     Power frenzy = new Power(width/2,height/2,0,0,0.05,1,frenzyPic,"frenzy");
+     fruitBox.add(frenzy);
+     */
+    //bonus powerup
+    PImage bonusPic = loadImage("bonus.png");
+    Power bonus = new Power(width/2, height/2, 0, 0, 0.05, 1, bonusPic, "bonus");
+    fruitBox.add(bonus);
+  }
+}
 
 void mousePressed() {
   //performs a specific action depends on which button is pressed
@@ -460,8 +487,23 @@ void mouseDragged() {
             int direction = curr.getDirection();
             int index = curr.getIndex();
             fruitBox.remove(curr);
-            String fruitTop = slicedFruitTypes.get(index-1).get(0);
-            String fruitBottom = slicedFruitTypes.get(index-1).get(1);
+            String fruitTop = "";
+            String fruitBottom = "";
+            String identity = curr.whatAmI();
+            if (identity.equals("power")) {
+              if (curr.getType().equals("frenzy")) {
+                fruitTop = "frenzyTop.png";
+                fruitBottom = "frenzyBottom.png";
+              }
+              if (curr.getType().equals("bonus")) {
+                fruitTop = "bonusTop.png";
+                fruitBottom = "bonusBottom.png";
+              }
+              usePowerUp(curr.getType());
+            } else {
+              fruitTop = slicedFruitTypes.get(index-1).get(0);
+              fruitBottom = slicedFruitTypes.get(index-1).get(1);
+            }
 
             //slicing fruit produces two new images of sliced fruit: top and bottom
             PImage topSprite = loadImage(fruitTop);
@@ -472,30 +514,31 @@ void mouseDragged() {
             fruit2.setSliced();
             fruitBox.add(fruit1);
             fruitBox.add(fruit2);
-            stainBox.add(new Stain(xCoor, yCoor, index));
+            if (curr.whatAmI().equals("fruit")) {
+              stainBox.add(new Stain(xCoor, yCoor, index));
+            }
 
             //increases combo
-            comboCounter++;
+            if (identity.equals("fruit")) {
+              comboCounter++;
+            }            
             if (comboCounter >=10) {
               currentCombo = new Combo(5);
-              score = score + 10 * comboCounter;
-              scoreIncrease = 10 * comboCounter;
+              scoreIncrease = 5 * comboCounter;
             } else {
               if (comboCounter >=5) {
                 currentCombo = new Combo(3);
-                score = score + 3 * comboCounter;
                 scoreIncrease = 3 * comboCounter;
               } else {
                 if (comboCounter == 3 || comboCounter == 4) {
                   currentCombo = new Combo(2);
-                  score = score + 2 * comboCounter;
                   scoreIncrease = 2 * comboCounter;
                 } else {
-                  score++;
                   scoreIncrease = 1;
                 }
               }
             }
+            score = score + scoreIncrease;
           }
         }
       }
@@ -526,5 +569,34 @@ void displayScore() {
     textSize(64);
     text("BEST: " + highScore, 50, 175);
     noFill();
+  }
+}
+
+void usePowerUp (String identity) {
+  if (identity.equals("frenzy")) {
+    Combo msg = new Combo(width/2 - 450, 200, "FRENZY!", color(252, 53, 53));
+    powerUp = msg;
+    for (int i = 0; i < 10; i++) {
+      int randomWidth;
+      int randomMagnitude;
+      int randomDirection;
+      randomWidth = (int)(Math.random() * (width-0+1) + 0);
+      randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
+      randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+      if (randomDirection == 0) {
+        randomDirection = -1;
+      }
+      int rand = (int) (Math.random() * (fruitTypes.size() - 1)) + 1;
+      String whichFruit = fruitTypes.get(rand);
+      PImage fruitSprite = loadImage(whichFruit);
+      Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
+      testFruit.setIndex(rand);
+      fruitBox.add(testFruit);
+    }
+  }
+  if (identity.equals("bonus")) {
+    Combo msg = new Combo(width/2 - 450, 200, "DOUBLED SCORE!", color(50, 217, 250));
+    powerUp = msg;
+    score = score * 2;
   }
 }

@@ -178,4 +178,8 @@ public class Fruit {
   boolean sliced() {
     return sliced;
   }
+  
+  String whatAmI() {
+    return "fruit";
+  }
 }
