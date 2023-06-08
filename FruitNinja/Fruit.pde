@@ -11,6 +11,7 @@ public class Fruit {
   boolean isBomb;
   int fruitIndex;
   boolean sliced;
+  int mode;
   
   //fruit constructor using radius
   public Fruit(float xCoor, float yCoor, float xSpeed, float ySpeed, float rotationSpeed, int rotationDirection, float radius) {
@@ -47,6 +48,27 @@ public class Fruit {
     sliced = false;
   }
   
+  //fruit constructor to set mode
+  public Fruit(float xCoor, float yCoor, float rotationSpeed, int rotationDirection, PImage img, int mode) {
+    position = new PVector(xCoor, yCoor);
+    velocity = new PVector(0.0, 0.0);
+    acceleration = new PVector(0.0, 0.0);
+    type = "image";
+    rotationAngle = 0;
+    this.rotationDirection = rotationDirection;
+    this.rotationSpeed = rotationSpeed;
+    this.img = img;
+    isBomb = false;
+    if (img.width >= img.height) {
+      radius = img.width;
+    }
+    else {
+      radius = img.height;
+    }
+    sliced = false;
+    this.mode = mode;
+  }
+  
   //implements movement of the fruits(gravity + horizontal movement)
   void move() {
     bounce();
@@ -54,7 +76,6 @@ public class Fruit {
     //apply velocity to position
     velocity.add(acceleration);
     position.add(velocity);
-    acceleration.set(0,g);
 
     //bounce
     bounce();
@@ -106,6 +127,10 @@ public class Fruit {
   
   float getRadius() {
     return radius;
+  }
+  
+  int getMode() {
+    return mode;
   }
   
   void makeBomb() {
