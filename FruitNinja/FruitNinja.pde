@@ -25,14 +25,6 @@ final int ARCADE = 0;
 final int ZEN = 1;
 Character lastKey;
 
-/*
-  background(backgroundImg);
- int randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
- PImage fruitSprite = loadImage("watermelon.png");
- Fruit testFruit = new Fruit(width/2-50, height/2, 0.05, randomDirection, fruitSprite);
- testFruit.display();
- */
-
 void draw() {
   //the game only runs when its not in a paused state
   if (mode == ARCADE) {
@@ -171,21 +163,11 @@ void draw() {
         countdown--;
       }
       spawnItem();
-      //ends game when user runs out of lives
-      /*
-    int numLives = 3;
-       for (Life life : lifeBox) {
-       if (life.filled()) {
-       numLives--;
-       }
-       }
-       if (numLives == 0) {
-       endMenu();
-       }
-       */
+      //ends game when the timer reaches 0
       if (timer == 0) {
         endMenu();
       }
+      //displays the timer
       if (!paused) {
         textSize(128);
         fill(255);
@@ -198,6 +180,7 @@ void draw() {
       setDifficulty();
     }
   } else {
+    //start menu screen
     background(backgroundImg);
     fill(255, 165, 0);
     textFont(font);
@@ -228,7 +211,6 @@ void setup() {
   paused = true;
   mode = 2;
   timer = 60;
-
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
@@ -290,6 +272,7 @@ void setup() {
 void spawnItem() {
   //continuously spawns fruits when game is not paused, with progressive difficulty
   if (mode == ARCADE && countdown == 0 && !paused) {
+    //arcade mode has bombs
     countdown+=boundary;
     int randomWidth;
     int randomMagnitude;
@@ -310,6 +293,7 @@ void spawnItem() {
     testFruit.setIndex(rand);
     fruitBox.add(testFruit);
   } else if (mode == ZEN && countdown == 0 && !paused) {
+    //zen mode has no bombs
     countdown+=boundary;
     int randomWidth;
     int randomMagnitude;
@@ -326,7 +310,8 @@ void spawnItem() {
     Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
     testFruit.setIndex(rand);
     fruitBox.add(testFruit);
-
+    
+    //0.25% chance of spawning either a frenzy or bonus power up
     double random = Math.random();
     if (random < 0.0025) {
       PImage frenzyPic = loadImage("frenzy.png");
@@ -345,6 +330,7 @@ void setDifficulty() {
   if (frameCount % 300 == 0) {
     boundary -= 5;
   }
+  //cap on how fast the fruits can spawn
   if (boundary < 20) {
     boundary = 20;
   }
@@ -446,6 +432,7 @@ void keyPressed() {
 //powerUp testing
 void keyPressed() {
   if (mode == ZEN) {
+    //press 1 or 2 to spawn powerups; cannot hold down the keys
     if ((lastKey == null || lastKey != key) && keyCode == '1') {
       lastKey = key;
       //frenzy powerup
@@ -462,6 +449,7 @@ void keyPressed() {
   }
 }
 
+//implementation to avoid repeatedly spawning powerups by holding down the key
 void keyReleased() {
   lastKey = null;
 }
@@ -523,6 +511,7 @@ void mouseDragged() {
         endMenu();  //ends game when bomb is sliced
       } else {
         if (mode == 2) {
+          //slicing detection in start menu
           mode = curr.getMode();
           curr.setSliced();
           fruitBox.clear();
@@ -530,6 +519,7 @@ void mouseDragged() {
           paused = false;
           break;
         } else {
+          //slicing detection for normal fruits/powerups
           if (!(curr.sliced()) && !paused) {
             float xCoor = curr.getX();
             float yCoor = curr.getY();
@@ -621,6 +611,7 @@ void displayScore() {
 }
 
 void usePowerUp (String identity) {
+  //applies the powerup that was sliced
   if (identity.equals("frenzy")) {
     Combo msg = new Combo(width/2 - 450, 200, "FRENZY!", color(252, 53, 53));
     powerUp = msg;

@@ -4,7 +4,8 @@ public class Stain {
   PImage img;
   int rotationAngle;
   int fruitIndex;
-
+  
+  //stain constructor
   public Stain (float xCoor, float yCoor, int fruitIndex) {
     this.xCoor = xCoor;
     this.yCoor = yCoor;
@@ -13,7 +14,8 @@ public class Stain {
     rotationAngle = (int)Math.floor(Math.random() *(361));
     this.fruitIndex = fruitIndex;
   }
-
+  
+  //displays the stain
   void display() {
     modify();
     //image(img,xCoor - img.width/2,yCoor - img.height/2);
