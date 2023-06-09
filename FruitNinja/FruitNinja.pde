@@ -286,7 +286,7 @@ void setup() {
 
 void spawnItem() {
   //continuously spawns fruits when game is not paused, with progressive difficulty
-  if (mode == 0 && countdown == 0 && !paused) {
+  if (mode == ARCADE && countdown == 0 && !paused) {
     countdown+=boundary;
     int randomWidth;
     int randomMagnitude;
@@ -306,24 +306,33 @@ void spawnItem() {
     }
     testFruit.setIndex(rand);
     fruitBox.add(testFruit);
-  } else if (mode == 1 && countdown == 0 && !paused) {
-    if (mode == 1 && countdown == 0 && !paused) {
-      countdown+=boundary;
-      int randomWidth;
-      int randomMagnitude;
-      int randomDirection;
-      randomWidth = (int)(Math.random() * (width-0+1) + 0);
-      randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
-      randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
-      if (randomDirection == 0) {
-        randomDirection = -1;
-      }
-      int rand = (int) (Math.random() * (fruitTypes.size() - 1)) + 1;
-      String whichFruit = fruitTypes.get(rand);
-      PImage fruitSprite = loadImage(whichFruit);
-      Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
-      testFruit.setIndex(rand);
-      fruitBox.add(testFruit);
+  } else if (mode == ZEN && countdown == 0 && !paused) {
+    countdown+=boundary;
+    int randomWidth;
+    int randomMagnitude;
+    int randomDirection;
+    randomWidth = (int)(Math.random() * (width-0+1) + 0);
+    randomMagnitude = (int)(Math.random() * (8-5+1) + 1);
+    randomDirection = (int)Math.floor(Math.random() * (1 - 0 + 1) + 0);
+    if (randomDirection == 0) {
+      randomDirection = -1;
+    }
+    int rand = (int) (Math.random() * (fruitTypes.size() - 1)) + 1;
+    String whichFruit = fruitTypes.get(rand);
+    PImage fruitSprite = loadImage(whichFruit);
+    Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
+    testFruit.setIndex(rand);
+    fruitBox.add(testFruit);
+
+    double random = Math.random();
+    if (random < 0.05) {
+      PImage frenzyPic = loadImage("frenzy.png");
+      Power frenzy = new Power(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, 1, frenzyPic, "frenzy");
+      fruitBox.add(frenzy);
+    } else if (random < 0.025) {
+      PImage bonusPic = loadImage("bonus.png");
+      Power bonus = new Power(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, 1, bonusPic, "bonus");
+      fruitBox.add(bonus);
     }
   }
 }
@@ -415,15 +424,17 @@ void keyPressed() {
 void keyPressed() {
   if (mode == ZEN) {
     //frenzy powerup
-    /*
-     PImage frenzyPic = loadImage("frenzy.png");
-     Power frenzy = new Power(width/2,height/2,0,0,0.05,1,frenzyPic,"frenzy");
-     fruitBox.add(frenzy);
-     */
+
+    PImage frenzyPic = loadImage("frenzy.png");
+    Power frenzy = new Power(width/2, height/2, 0, 0, 0.05, 1, frenzyPic, "frenzy");
+    fruitBox.add(frenzy);
+
     //bonus powerup
+    /*
     PImage bonusPic = loadImage("bonus.png");
-    Power bonus = new Power(width/2, height/2, 0, 0, 0.05, 1, bonusPic, "bonus");
-    fruitBox.add(bonus);
+     Power bonus = new Power(width/2, height/2, 0, 0, 0.05, 1, bonusPic, "bonus");
+     fruitBox.add(bonus);
+     */
   }
 }
 
@@ -521,7 +532,7 @@ void mouseDragged() {
             //increases combo
             if (identity.equals("fruit")) {
               comboCounter++;
-            }            
+            }
             if (comboCounter >=10) {
               currentCombo = new Combo(5);
               scoreIncrease = 5 * comboCounter;
