@@ -42,6 +42,7 @@ void draw() {
         scoreCounter++;
       }
       if (scoreCounter >= 20) {
+        score = score + scoreIncrease;
         scoreIncrease = 0;
         scoreCounter = 0;
       }
@@ -117,6 +118,7 @@ void draw() {
         scoreCounter++;
       }
       if (scoreCounter >= 20) {
+        score = score + scoreIncrease;
         scoreIncrease = 0;
         scoreCounter = 0;
       }
@@ -225,10 +227,10 @@ void setup() {
   paused = true;
   mode = 2;
   timer = 60;
+  
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
-
   PImage fruitSprite = loadImage("watermelon.png");
   PImage fruitSprite2 = loadImage("pomegranate.png");
   Fruit testFruit = new Fruit(width/2-150, height/2, 0.05, 1, fruitSprite, 0);
@@ -325,11 +327,11 @@ void spawnItem() {
     fruitBox.add(testFruit);
 
     double random = Math.random();
-    if (random < 0.05) {
+    if (random < 0.0025) {
       PImage frenzyPic = loadImage("frenzy.png");
       Power frenzy = new Power(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, 1, frenzyPic, "frenzy");
       fruitBox.add(frenzy);
-    } else if (random < 0.025) {
+    } else if (random < 0.005) {
       PImage bonusPic = loadImage("bonus.png");
       Power bonus = new Power(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, 1, bonusPic, "bonus");
       fruitBox.add(bonus);
@@ -350,7 +352,21 @@ void setDifficulty() {
 void startMenu() {
   //start menu interface
   background(backgroundImg);
-  startButton.display();
+  score = 0;
+  font = createFont("go3v2.ttf", 128);
+  boundary = 60;
+  highScore = 0;
+  retries = 0;
+  paused = true;
+  mode = 2;
+  timer = 60;
+  fruitBox = new ArrayList<Fruit>();
+  PImage fruitSprite = loadImage("watermelon.png");
+  PImage fruitSprite2 = loadImage("pomegranate.png");
+  Fruit testFruit = new Fruit(width/2-150, height/2, 0.05, 1, fruitSprite, 0);
+  Fruit testFruit2 = new Fruit(width/2+150, height/2, 0.05, 1, fruitSprite2, 1);
+  fruitBox.add(testFruit);
+  fruitBox.add(testFruit2);
   paused = true;
 }
 
@@ -381,6 +397,7 @@ void endMenu() {
   text(""+score, width/2-25, 300);
   noFill();
   stainBox = new ArrayList<Stain>();
+  fruitBox = new ArrayList<Fruit>();
   currentCombo = null;
   if (score > highScore) {
     highScore = score;
@@ -549,7 +566,7 @@ void mouseDragged() {
                 }
               }
             }
-            score = score + scoreIncrease;
+            
           }
         }
       }
