@@ -15,5 +15,7 @@ SLICE as many fruits to accumulate a high score
 COMBO fruits together for bonus points!  
 ### ZEN:  
 SLICE as many fruits as you can before the time limit is over!
-SLICE power-ups for special effects!
-NO Bombs!
+SLICE power-ups for special effects!  
+NO Bombs!  
+### CHEATS:  
+In ZEN mode, press '1' to spawn a FRENZY powerup and press '2' to spawn a BONUS powerup.
