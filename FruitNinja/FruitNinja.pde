@@ -360,6 +360,11 @@ void startMenu() {
   paused = true;
   mode = 2;
   timer = 60;
+  scoreIncrease = 0;
+  scoreCounter = 0;
+  stainBox = new ArrayList<Stain>();
+  fruitBox = new ArrayList<Fruit>();
+  currentCombo = null;
   fruitBox = new ArrayList<Fruit>();
   PImage fruitSprite = loadImage("watermelon.png");
   PImage fruitSprite2 = loadImage("pomegranate.png");
@@ -457,22 +462,32 @@ void keyPressed() {
 
 void mousePressed() {
   //performs a specific action depends on which button is pressed
-  if (startButton.update(mouseX, mouseY)) {
-    if (startButton.getText().equals("START")) {
+  if (startButton.update(mouseX, mouseY)) {   
+    if (startButton.isDisplayed()) {
+      if (startButton.getText().equals("START")) {
       System.out.println("start button pressed!");
       startButton.hide();
       gameMenu();
     }
-  }
-  if (pauseButton.update(mouseX, mouseY)) {
-    if (pauseButton.getText().equals("PAUSE")) {
-      System.out.println("pause button pressed!");
-      pauseButton.hide();
-      startMenu();
     }
   }
+  if (pauseButton.update(mouseX, mouseY)) {
+    if (pauseButton.isDisplayed()) {
+      if (pauseButton.getText().equals("PAUSE")) {
+      System.out.println("pause button pressed!");
+      paused = !paused;
+      if (paused) {
+        backButton.display();
+      }
+      else {
+        backButton.hide();
+      }
+    }
+    }   
+  }
   if (backButton.update(mouseX, mouseY)) {
-    if (backButton.getText().equals("BACK")) {
+    if (backButton.isDisplayed()) {
+      if (backButton.getText().equals("BACK")) {
       System.out.println("back button pressed!");
       backButton.hide();
       score = 0;
@@ -486,6 +501,7 @@ void mousePressed() {
       timer = 60;
       startMenu();
     }
+    }   
   }
 }
 

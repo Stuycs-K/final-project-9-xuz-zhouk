@@ -60,6 +60,10 @@ public class Button {
   void hide() {
     displayed = false;
   }
+  
+  boolean isDisplayed() {
+    return displayed;
+  }
  
  //resizes image
   void resize(int f) {
