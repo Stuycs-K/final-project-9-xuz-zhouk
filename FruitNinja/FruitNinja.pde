@@ -23,6 +23,7 @@ int mode;
 int timer;
 final int ARCADE = 0;
 final int ZEN = 1;
+Character lastKey;
 
 /*
   background(backgroundImg);
@@ -227,7 +228,7 @@ void setup() {
   paused = true;
   mode = 2;
   timer = 60;
-  
+
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
@@ -445,63 +446,67 @@ void keyPressed() {
 //powerUp testing
 void keyPressed() {
   if (mode == ZEN) {
-    //frenzy powerup
-
-    PImage frenzyPic = loadImage("frenzy.png");
-    Power frenzy = new Power(width/2, height/2, 0, 0, 0.05, 1, frenzyPic, "frenzy");
-    fruitBox.add(frenzy);
-
-    //bonus powerup
-    /*
-    PImage bonusPic = loadImage("bonus.png");
-     Power bonus = new Power(width/2, height/2, 0, 0, 0.05, 1, bonusPic, "bonus");
-     fruitBox.add(bonus);
-     */
+    if ((lastKey == null || lastKey != key) && keyCode == '1') {
+      lastKey = key;
+      //frenzy powerup
+      PImage frenzyPic = loadImage("frenzy.png");
+      Power frenzy = new Power(width/2, height/2, 0, 0, 0.05, 1, frenzyPic, "frenzy");
+      fruitBox.add(frenzy);
+    } else if ((lastKey == null || lastKey != key) && keyCode == '2') {
+      lastKey = key;
+      //bonus powerup
+      PImage bonusPic = loadImage("bonus.png");
+      Power bonus = new Power(width/2, height/2, 0, 0, 0.05, 1, bonusPic, "bonus");
+      fruitBox.add(bonus);
+    }
   }
+}
+
+void keyReleased() {
+  lastKey = null;
 }
 
 void mousePressed() {
   //performs a specific action depends on which button is pressed
-  if (startButton.update(mouseX, mouseY)) {   
+  if (startButton.update(mouseX, mouseY)) {
     if (startButton.isDisplayed()) {
       if (startButton.getText().equals("START")) {
-      System.out.println("start button pressed!");
-      startButton.hide();
-      gameMenu();
-    }
+        System.out.println("start button pressed!");
+        startButton.hide();
+        gameMenu();
+      }
     }
   }
   if (pauseButton.update(mouseX, mouseY)) {
     if (pauseButton.isDisplayed()) {
       if (pauseButton.getText().equals("PAUSE")) {
-      System.out.println("pause button pressed!");
-      paused = !paused;
-      if (paused) {
-        backButton.display();
-      }
-      else {
-        backButton.hide();
+        System.out.println("pause button pressed!");
+        paused = !paused;
+        if (paused) {
+          backButton.display();
+        } else {
+          backButton.hide();
+        }
       }
     }
-    }   
   }
   if (backButton.update(mouseX, mouseY)) {
     if (backButton.isDisplayed()) {
       if (backButton.getText().equals("BACK")) {
-      System.out.println("back button pressed!");
-      backButton.hide();
-      score = 0;
-      fruitBox.clear();
-      for (Life life : lifeBox) {
-        life.setLife(false);
+        System.out.println("back button pressed!");
+        backButton.hide();
+        score = 0;
+        fruitBox.clear();
+        for (Life life : lifeBox) {
+          life.setLife(false);
+        }
+        lifeBoxIndex = 0;
+        boundary = 60;
+        retries++;
+        timer = 60;
+        startMenu();
       }
-      lifeBoxIndex = 0;
-      boundary = 60;
-      retries++;
-      timer = 60;
-      startMenu();
     }
-    }   
   }
 }
 
@@ -512,7 +517,7 @@ void mouseDragged() {
     if (dist(curr.getX(), curr.getY(), mouseX, mouseY) < curr.getRadius()
       && dist(mouseX, mouseY, pmouseX, pmouseY) > curr.getRadius()/48
       ) {
-      if (curr.isBomb()) {
+      if (curr.isBomb() && !paused) {
         System.out.println("Oh no!");
         background(backgroundImg);
         endMenu();  //ends game when bomb is sliced
@@ -525,7 +530,7 @@ void mouseDragged() {
           paused = false;
           break;
         } else {
-          if (!(curr.sliced())) {
+          if (!(curr.sliced()) && !paused) {
             float xCoor = curr.getX();
             float yCoor = curr.getY();
             int direction = curr.getDirection();
@@ -582,7 +587,6 @@ void mouseDragged() {
                 }
               }
             }
-            
           }
         }
       }
