@@ -47,6 +47,11 @@ finished adding cursor slicing effect when dragging mouse
 fixed mouse cursor trail,  
 implemented high score and retry count feature(the game displays them)
 
+### date: 6-7-23
+changed color, size, text for high score,  
+added zen mode(a timer is used to end the game),  
+added two spinning fruits in start menu that can be sliced to choose mode
+
 info
 
 
