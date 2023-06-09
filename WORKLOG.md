@@ -52,6 +52,9 @@ changed color, size, text for high score,
 added zen mode(a timer is used to end the game),  
 added two spinning fruits in start menu that can be sliced to choose mode
 
+### date: 6-8-23
+implemented spawning rate for power ups in zen mode
+
 info
 
 
