@@ -8,7 +8,14 @@ Kevin Zhou and Zhi Ming Xu
 This project is a recreation of the popular 2010 mobile game "Fruit Ninja" by Halfbrick made on Processing.
 ## Instructions
 Press the PLAY NOW button to start.  
-SLICE as many fruits as you can in order to accumulate points!  
-Try to obtain COMBOES in order to accelerate your score increase!  
-DROPPING over three fruits will end the run!  
-AVOID slicing the bombs!  
+Choose between the ARCADE and ZEN gamemodes.  
+### ARCADE:  
+AVOID slicing any bombs and dropping any fruits  
+SLICE as many fruits to accumulate a high score  
+COMBO fruits together for bonus points!  
+### ZEN:  
+SLICE as many fruits as you can before the time limit is over!
+SLICE power-ups for special effects!  
+NO Bombs!  
+### CHEATS:  
+In ZEN mode, press '1' to spawn a FRENZY powerup and press '2' to spawn a BONUS powerup.
