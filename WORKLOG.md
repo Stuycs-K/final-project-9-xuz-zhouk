@@ -59,6 +59,11 @@ implemented spawning rate for power ups in zen mode
 fixed bug with being able to slice in paused state,  
 added cheats for instantly adding powerups upon clicking 1 or 2
 
+### date: 6-11-23
+fixed bug with the highscore/retries not being displayed after multiple runs,  
+added highscore/retries variables for each separate mode,  
+the highscore/retries are now stored separately for each mode
+
 info
 
 
