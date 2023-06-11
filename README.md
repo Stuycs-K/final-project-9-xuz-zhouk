@@ -14,7 +14,7 @@ AVOID slicing any bombs and dropping more than 3 fruits
 SLICE as many fruits to accumulate a high score  
 COMBO fruits together for bonus points!  
 ### ZEN:  
-SLICE as many fruits as you can before the time limit is over!
+SLICE as many fruits as you can before the time limit is over!  
 SLICE power-ups for special effects!  
 NO Bombs!  
 ### CHEATS:  
