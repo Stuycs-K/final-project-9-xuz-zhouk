@@ -10,7 +10,7 @@ This project is a recreation of the popular 2010 mobile game "Fruit Ninja" by Ha
 Press the PLAY NOW button to start.  
 Choose between the ARCADE and ZEN gamemodes.  
 ### ARCADE:  
-AVOID slicing any bombs and dropping any fruits  
+AVOID slicing any bombs and dropping more than 3 fruits  
 SLICE as many fruits to accumulate a high score  
 COMBO fruits together for bonus points!  
 ### ZEN:  
