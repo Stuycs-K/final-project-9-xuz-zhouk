@@ -17,8 +17,10 @@ int scoreCounter = 0;
 PFont font;
 int boundary;
 ArrayList<Stain> stainBox;
-int highScore;
-int retries;
+int highScoreZen;
+int highScoreArcade;
+int retriesZen;
+int retriesArcade;
 int mode;
 int timer;
 final int ARCADE = 0;
@@ -80,10 +82,10 @@ void draw() {
       if (frameCount % 50 == 0) {
         comboCounter = 0;
       }
-      if (retries > 0) {
+      if (retriesArcade > 0) {
         textSize(32);
         fill(255, 165, 0);
-        text("Retries: " + retries, width-200, height-100);
+        text("Retries: " + retriesArcade, width-200, height-100);
         noFill();
       }
       //timer feature utitlized in spawnItem
@@ -152,10 +154,10 @@ void draw() {
       if (frameCount % 50 == 0) {
         comboCounter = 0;
       }
-      if (retries > 0) {
+      if (retriesZen > 0) {
         textSize(32);
         fill(255, 165, 0);
-        text("Retries: " + retries, width-200, height-100);
+        text("Retries: " + retriesZen, width-200, height-100);
         noFill();
       }
       //timer feature utitlized in spawnItem
@@ -206,8 +208,10 @@ void setup() {
   score = 0;
   font = createFont("go3v2.ttf", 128);
   boundary = 60;
-  highScore = 0;
-  retries = 0;
+  highScoreArcade = 0;
+  highScoreZen = 0;
+  retriesZen = 0;
+  retriesArcade = 0;
   paused = true;
   mode = 2;
   timer = 60;
@@ -310,7 +314,7 @@ void spawnItem() {
     Fruit testFruit = new Fruit(randomWidth, height, randomMagnitude * randomDirection, -7, 0.05, randomDirection, fruitSprite);
     testFruit.setIndex(rand);
     fruitBox.add(testFruit);
-    
+
     //0.25% chance of spawning either a frenzy or bonus power up
     double random = Math.random();
     if (random < 0.0025) {
@@ -342,8 +346,6 @@ void startMenu() {
   score = 0;
   font = createFont("go3v2.ttf", 128);
   boundary = 60;
-  highScore = 0;
-  retries = 0;
   paused = true;
   mode = 2;
   timer = 60;
@@ -386,13 +388,15 @@ void endMenu() {
   noFill();
   fill(255, 165, 0);
   text("Final Score: ", 120, 200);
-  text(""+score, width/2-25, 300);
+  text(""+score, width/2-30, 300);
   noFill();
   stainBox = new ArrayList<Stain>();
   fruitBox = new ArrayList<Fruit>();
   currentCombo = null;
-  if (score > highScore) {
-    highScore = score;
+  if (mode == ARCADE && score > highScoreArcade) {
+    highScoreArcade = score;
+  } else if (mode == ZEN && score > highScoreZen) {
+    highScoreZen = score;
   }
   backButton.display();
 }
@@ -469,7 +473,7 @@ void mousePressed() {
     if (pauseButton.isDisplayed()) {
       if (pauseButton.getText().equals("PAUSE")) {
         System.out.println("pause button pressed!");
-        paused = !paused;
+        paused = true;
         if (paused) {
           backButton.display();
         } else {
@@ -483,15 +487,27 @@ void mousePressed() {
       if (backButton.getText().equals("BACK")) {
         System.out.println("back button pressed!");
         backButton.hide();
-        score = 0;
         fruitBox.clear();
         for (Life life : lifeBox) {
           life.setLife(false);
         }
         lifeBoxIndex = 0;
         boundary = 60;
-        retries++;
+        //increase number of retries based on current mode
+        if (mode == ARCADE) {
+          retriesArcade++;
+        }
+        if (mode == ZEN) {
+          retriesZen++;
+        }
+        //set new high score based on current mode
+        if (mode == ARCADE && score > highScoreArcade) {
+          highScoreArcade = score;
+        } else if (mode == ZEN && score > highScoreZen) {
+          highScoreZen = score;
+        }
         timer = 60;
+        score = 0;
         startMenu();
       }
     }
@@ -602,10 +618,17 @@ void displayScore() {
     text(""+score, 50, 100);
   }
   noFill();
-  if (retries > 0) {
+  //displays the high score for each mode
+  //after at least one game has been played on that mode
+  if (mode == ARCADE && retriesArcade > 0) {
     fill(255, 165, 0);
     textSize(64);
-    text("BEST: " + highScore, 50, 175);
+    text("BEST: " + highScoreArcade, 50, 175);
+    noFill();
+  } else if (mode == ZEN && retriesZen > 0) {
+    fill(255, 165, 0);
+    textSize(64);
+    text("BEST: " + highScoreZen, 50, 175);
     noFill();
   }
 }
