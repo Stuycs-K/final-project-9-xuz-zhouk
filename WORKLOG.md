@@ -55,6 +55,10 @@ added two spinning fruits in start menu that can be sliced to choose mode
 ### date: 6-8-23
 implemented spawning rate for power ups in zen mode
 
+### date: 6-9-23
+fixed bug with being able to slice in paused state,  
+added cheats for instantly adding powerups upon clicking 1 or 2
+
 info
 
 
@@ -88,15 +92,18 @@ implemented combos, but was forced to revert to old implementation of slicing be
 
 ### date: 06-5-2023
 implemented most of stains (cropped the sprite, wrote the class, figured out fading).  
-tomorrow in class need to remember to disable the manual button and change the color.
+tomorrow in class need to remember to disable the manual button and change the color.  
 
 ### date: 06-6-2023
-finished stains by figuring out how to work around the coloring issue (combination of gimp and tint()).
+finished stains by figuring out how to work around the coloring issue (combination of gimp and tint()).  
 
 ### date: 06-08-2023
-used gimp to crop both powerup sprites and powerup halves, then wrote the class and added in functionality for each individual power up. next step is to incorporate them with the spawn method.
+used gimp to crop both powerup sprites and powerup halves, then wrote the class and added in functionality for each individual power up. next step is to incorporate them with the spawn method.  
 
 ### date: 06-09-2023
-fixed combos, transitioning screens, start menu, and bug with buttons
+fixed combos, transitioning screens, start menu, and bug with buttons  
+
+### date: 06-10-2023
+updated the prototype document, uploaded it to the main  
 
 info
