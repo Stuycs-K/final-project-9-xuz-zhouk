@@ -55,6 +55,10 @@ added two spinning fruits in start menu that can be sliced to choose mode
 ### date: 6-8-23
 implemented spawning rate for power ups in zen mode
 
+### date: 6-9-23
+fixed bug with being able to slice in paused state,  
+added cheats for instantly adding powerups upon clicking 1 or 2
+
 info
 
 
