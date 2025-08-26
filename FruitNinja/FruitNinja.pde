@@ -2,6 +2,7 @@ import java.util.*;
 Button startButton, pauseButton, backButton;
 PImage backgroundImg;
 boolean paused;
+boolean showModeSelect = false;
 ArrayList<Fruit> fruitBox;
 ArrayList<String> fruitTypes;
 ArrayList<ArrayList<String>> slicedFruitTypes;
@@ -184,16 +185,24 @@ void draw() {
   } else {
     //start menu screen
     background(backgroundImg);
-    fill(255, 165, 0);
-    textFont(font);
-    textSize(32);
-    text("ARCADE", width/2-200, height/2-100);
-    text("ZEN", width/2+115, height/2-100);
-    textSize(48);
-    text("Choose your desired mode below:", 100, height/2-200);
-    noFill();
-    for (Fruit fruit : fruitBox) {
-      fruit.display();
+    if (!showModeSelect) {
+      // STATE 1: Initial Title Screen
+      // Only the start button is displayed.
+      startButton.display();
+    } else {
+      // STATE 2: Mode Select Screen
+      // Display the text and the fruits for selection.
+      fill(255, 165, 0);
+      textFont(font);
+      textSize(32);
+      text("ARCADE", width/2-200, height/2-100);
+      text("ZEN", width/2+115, height/2-100);
+      textSize(48);
+      text("Choose your desired mode below:", 100, height/2-200);
+      noFill();
+      for (Fruit fruit : fruitBox) {
+        fruit.display();
+      }
     }
   }
 }
@@ -218,12 +227,6 @@ void setup() {
 
   //fruitBox initialize
   fruitBox = new ArrayList<Fruit>();
-  PImage fruitSprite = loadImage("watermelon.png");
-  PImage fruitSprite2 = loadImage("pomegranate.png");
-  Fruit testFruit = new Fruit(width/2-150, height/2, 0.05, 1, fruitSprite, 0);
-  Fruit testFruit2 = new Fruit(width/2+150, height/2, 0.05, 1, fruitSprite2, 1);
-  fruitBox.add(testFruit);
-  fruitBox.add(testFruit2);
 
   //fruitTypes initialize
   fruitTypes = new ArrayList<String>();
@@ -238,13 +241,13 @@ void setup() {
 
   //slicedFruitTypes initialize
   slicedFruitTypes = new ArrayList<ArrayList<String>>();
-  slicedFruitTypes.add(new ArrayList<String>(List.of("watermelonTop.png", "watermelonBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("bananaTop.png", "bananaBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("pearTop.png", "pearBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("pomegranateTop.png", "pomegranateBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("orangeTop.png", "orangeBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("pineappleTop.png", "pineappleBottom.png")));
-  slicedFruitTypes.add(new ArrayList<String>(List.of("coconutTop.png", "coconutBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(Arrays.asList("watermelonTop.png", "watermelonBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(Arrays.asList("bananaTop.png", "bananaBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(Arrays.asList("pearTop.png", "pearBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(Arrays.asList("pomegranateTop.png", "pomegranateBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(Arrays.asList("orangeTop.png", "orangeBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(Arrays.asList("pineappleTop.png", "pineappleBottom.png")));
+  slicedFruitTypes.add(new ArrayList<String>(Arrays.asList("coconutTop.png", "coconutBottom.png")));
 
 
   //lifeBox initialize
@@ -464,7 +467,15 @@ void mousePressed() {
     if (startButton.isDisplayed()) {
       if (startButton.getText().equals("START")) {
         System.out.println("start button pressed!");
+        showModeSelect = true;
         startButton.hide();
+        // Now, create the mode select fruits
+        PImage fruitSprite = loadImage("watermelon.png");
+        PImage fruitSprite2 = loadImage("pomegranate.png");
+        Fruit testFruit = new Fruit(width/2-150, height/2, 0.05, 1, fruitSprite, 0); // Arcade
+        Fruit testFruit2 = new Fruit(width/2+150, height/2, 0.05, 1, fruitSprite2, 1); // Zen
+        fruitBox.add(testFruit);
+        fruitBox.add(testFruit2);
         gameMenu();
       }
     }
